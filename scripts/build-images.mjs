@@ -1,7 +1,6 @@
 // Builds Cinetrio brand images into public/assets:
 //   og-image.jpg            social share card (1200x630) from cinetrio-logo.png
 //   ahram-portrait.webp     monogram placeholder until Ahram's photo is added
-//   faraz-portrait.webp     monogram placeholder until Faraz's photo is added
 // Run: npm run images
 import sharp from 'sharp';
 
@@ -49,6 +48,5 @@ const monogram = (initials, color, label) =>
   </svg>`);
 
 await sharp(monogram('AA', '#8b5cf6', 'VIDEO • MOTION')).webp({ quality: 88 }).toFile(`${OUT}/ahram-portrait.webp`);
-await sharp(monogram('MF', '#10b981', 'E-COMMERCE')).webp({ quality: 88 }).toFile(`${OUT}/faraz-portrait.webp`);
 
 console.log('images built');

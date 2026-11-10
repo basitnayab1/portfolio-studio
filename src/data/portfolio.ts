@@ -201,6 +201,7 @@ export const viewerProfiles: {
     glyph: '🛒',
     blurb: 'TikTok Shop, eBay & Amazon Scaling',
     color: '#10b981',
+    avatarImg: '/assets/faraz-cutout-420.webp',
     order: ['picks', 'originals', 'about', 'skills', 'journey', 'moments', 'story'],
   },
 ];
@@ -857,13 +858,14 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
       'E-Commerce Growth Specialist scaling six and seven-figure online stores across TikTok Shop, Amazon FBA, and eBay through data-driven product hunting, high-converting listing optimization, aggressive PPC management, and automated fulfillment.',
     location: 'Remote / Global',
     email: 'muhammadfaraz@gmail.com',
+    avatarImg: '/assets/faraz-cutout-420.webp',
     links: {
       linkedin: 'https://linkedin.com',
     },
     portrait: {
-      src: '/assets/faraz-portrait.webp',
-      srcSet: '/assets/faraz-portrait.webp 900w',
-      alt: 'Muhammad Faraz — E-Commerce lead',
+      src: '/assets/faraz-cutout.webp',
+      srcSet: '/assets/faraz-cutout-420.webp 420w, /assets/faraz-cutout.webp 1086w',
+      alt: 'Portrait of Muhammad Faraz',
     },
     interests: ['Marketplace Algorithms', 'Viral TikTok Shop Commerce', 'Global Supply Chain', 'Brand Scaling'],
     facts: [
