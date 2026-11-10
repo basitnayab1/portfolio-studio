@@ -1,9 +1,9 @@
-# SUSHMITA — THE SERIES
+# CINETRIO STUDIOS — THE SERIES
 
-A cinematic, streaming-inspired portfolio for **Sushmita Dasari**: Full-Stack Developer and B.Tech AI & ML student.
+A cinematic, streaming-inspired portfolio for **Cinetrio Studios**, a three-lead agency: Basit Nayab (Full Stack & AI), Ahram Ali (Video & Motion) and Muhammad Faraz (E-Commerce).
 Every section is an episode, every project is an Original, and the whole site plays like a series.
 
-> A personal portfolio with a fictional streaming-platform look. It is not affiliated with Netflix or any other streaming service and uses none of their logos.
+> A team portfolio with a fictional streaming-platform look. It is not affiliated with Netflix or any other streaming service and uses none of their logos.
 
 ## Run it locally
 
@@ -41,24 +41,24 @@ The static site is written to `dist/` and can be deployed as-is to Vercel, Netli
 | Profile order (Recruiter / Developer / Creative) | `viewerProfiles` |
 | Opening studio card text | `profile.originalLabel` |
 
-**Resume:** replace `public/assets/Sushmita_Dasari_Resume.pdf`.
+**Photos:** each lead's `portrait` in `memberProfiles` (src/data/portfolio.ts). Ahram and Faraz use generated monogram placeholders (`ahram-portrait.webp`, `faraz-portrait.webp`) until real background-removed photos are added.
 
-**Photo:** replace `pic1.jpeg` (high-res photo) and `pic.png` (background-removed cutout with the same framing), then run:
+**Brand images:** the social share card is built from `public/assets/cinetrio-logo.png`. To rebuild it and the placeholders, run:
 
 ```bash
 npm run images
 ```
 
-This rebuilds the responsive WebP portraits and the social share image in `public/assets/`.
+This writes `og-image.jpg`, `ahram-portrait.webp` and `faraz-portrait.webp` in `public/assets/`.
 
 ## What's inside
 
 ```
 src/
-  data/portfolio.ts        ← single source of truth (from the resume)
+  data/portfolio.ts        ← single source of truth for all three leads
   App.tsx                  ← stages: opening → profile select → home; overlays
   components/
-    OpeningSequence        ← black → studio card → SUSHMITA → THE SERIES → portrait → ▶ PLAY
+    OpeningSequence        ← black → studio card → CINETRIO STUDIOS → THE SERIES → roles → ▶ SELECT PROFILE
     ProfileSelector        ← "Who's watching?" (changes section order only)
     Navbar                 ← hide-on-scroll nav, profile switcher, mobile menu
     Hero                   ← billboard: parallax portrait, particles, light streaks, floating chips

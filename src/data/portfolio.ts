@@ -1,6 +1,6 @@
 /**
- * Agency & Team Portfolio Data
- * Central source of truth for the Agency and its 3 dedicated leads:
+ * Cinetrio Studios — Team Portfolio Data
+ * Central source of truth for Cinetrio Studios and its 3 dedicated leads:
  * 1. Basit Nayab — Full Stack Developer & AI Specialist (AI Chatbots, AI Agents, LLM)
  * 2. Ahram Ali — Video Editor & Motion Graphic Designer (Video Editing, Motion Graphics, AI Content, Graphic Design)
  * 3. Muhammad Faraz — E-Commerce Specialist (TikTok Shop, eBay, Amazon)
@@ -127,14 +127,14 @@ const violet: Palette = { from: '#120822', via: '#3d1a6e', to: '#07060c', accent
 const jade: Palette = { from: '#03150f', via: '#0d5a40', to: '#050a08', accent: '#46e3a8' };
 
 export const agency = {
-  name: 'AGENCY STUDIOS',
-  brandName: 'AGENCY',
-  seriesTag: 'AGENCY ORIGINAL',
-  originalLabel: 'AN AGENCY ORIGINAL',
+  name: 'CINETRIO STUDIOS',
+  brandName: 'CINETRIO',
+  seriesTag: 'CINETRIO ORIGINAL',
+  originalLabel: 'A CINETRIO ORIGINAL',
   tagline: ['Full-Stack & AI Systems', 'Video & Motion Design', 'E-Commerce Growth'],
   intro:
     'A specialized multi-disciplinary agency powered by three dedicated leads: Full Stack & Autonomous AI Engineering, Cinema-Grade Video & Motion Graphics, and Multi-Platform E-Commerce Growth across TikTok Shop, Amazon & eBay.',
-  email: 'agency.team@gmail.com',
+  email: 'hello@cinetrio.com',
   services: [
     {
       title: 'Full Stack & AI Development',
@@ -212,7 +212,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     displayName: 'Basit Nayab',
     firstName: 'BASIT NAYAB',
     seriesTag: 'AI & FULL-STACK LEAD',
-    originalLabel: 'AN AGENCY ORIGINAL',
+    originalLabel: 'A CINETRIO ORIGINAL',
     role: 'Full Stack Developer & AI Specialist',
     badge: 'AI & DEV',
     glyph: '</>',
@@ -228,7 +228,6 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
       linkedin: 'https://linkedin.com',
       github: 'https://github.com',
     },
-    resumePdf: '/assets/Sushmita_Dasari_Resume.pdf',
     portrait: {
       src: '/assets/basit-cutout.webp',
       srcSet: '/assets/basit-cutout.webp 420w, /assets/basit-cutout.png 720w, /assets/abdul-basit.png 1100w',
@@ -252,7 +251,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     ],
     experience: [
       {
-        company: 'Agency Studios',
+        company: 'Cinetrio Studios',
         role: 'Full Stack & AI Lead',
         place: 'Global / Remote',
         period: '2024 – Present',
@@ -349,7 +348,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
       {
         id: 'ai-leader',
         title: 'AI Systems Architect',
-        org: 'Agency Studios',
+        org: 'Cinetrio Studios',
         detail: 'Architected multiple autonomous AI agents and enterprise chatbots for high-growth clients.',
         laurel: 'Tech Lead',
       },
@@ -534,7 +533,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     displayName: 'Ahram Ali',
     firstName: 'AHRAM ALI',
     seriesTag: 'CREATIVE & VIDEO LEAD',
-    originalLabel: 'AN AGENCY ORIGINAL',
+    originalLabel: 'A CINETRIO ORIGINAL',
     role: 'Video Editor & Motion Graphic Designer',
     badge: 'CREATIVE',
     glyph: '✦',
@@ -549,11 +548,10 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
       youtube: 'https://youtube.com',
       behance: 'https://behance.net',
     },
-    resumePdf: '/assets/Sushmita_Dasari_Resume.pdf',
     portrait: {
-      src: '/assets/portrait-720.webp',
-      srcSet: '/assets/portrait-420.webp 420w, /assets/portrait-720.webp 720w, /assets/portrait-1100.webp 1100w',
-      alt: 'Portrait of Ahram Ali',
+      src: '/assets/ahram-portrait.webp',
+      srcSet: '/assets/ahram-portrait.webp 900w',
+      alt: 'Ahram Ali — Video & Motion lead',
     },
     interests: ['Cinematic Pacing', '3D Motion Typography', 'Generative AI Media', 'Brand Art Direction'],
     facts: [
@@ -573,7 +571,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     ],
     experience: [
       {
-        company: 'Agency Studios',
+        company: 'Cinetrio Studios',
         role: 'Lead Video Editor & Motion Designer',
         place: 'Global / Remote',
         period: '2024 – Present',
@@ -668,7 +666,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
       {
         id: 'creative-director',
         title: 'Creative Media Lead',
-        org: 'Agency Studios',
+        org: 'Cinetrio Studios',
         detail: 'Directing post-production, motion graphics, and graphic branding for all agency clients.',
         laurel: 'Creative Lead',
       },
@@ -849,7 +847,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     displayName: 'Muhammad Faraz',
     firstName: 'MUHAMMAD FARAZ',
     seriesTag: 'E-COMMERCE & GROWTH LEAD',
-    originalLabel: 'AN AGENCY ORIGINAL',
+    originalLabel: 'A CINETRIO ORIGINAL',
     role: 'E-Commerce Specialist & Growth Lead',
     badge: 'ECOMMERCE',
     glyph: '🛒',
@@ -862,11 +860,10 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     links: {
       linkedin: 'https://linkedin.com',
     },
-    resumePdf: '/assets/Sushmita_Dasari_Resume.pdf',
     portrait: {
-      src: '/assets/portrait-720.webp',
-      srcSet: '/assets/portrait-420.webp 420w, /assets/portrait-720.webp 720w, /assets/portrait-1100.webp 1100w',
-      alt: 'Portrait of Muhammad Faraz',
+      src: '/assets/faraz-portrait.webp',
+      srcSet: '/assets/faraz-portrait.webp 900w',
+      alt: 'Muhammad Faraz — E-Commerce lead',
     },
     interests: ['Marketplace Algorithms', 'Viral TikTok Shop Commerce', 'Global Supply Chain', 'Brand Scaling'],
     facts: [
@@ -886,7 +883,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     ],
     experience: [
       {
-        company: 'Agency Studios',
+        company: 'Cinetrio Studios',
         role: 'E-Commerce Lead & Store Growth Specialist',
         place: 'Global / Remote',
         period: '2024 – Present',
@@ -981,7 +978,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
       {
         id: 'ecom-lead',
         title: 'E-Commerce Lead',
-        org: 'Agency Studios',
+        org: 'Cinetrio Studios',
         detail: 'Directing store growth, marketplace optimization, and advertising across all agency accounts.',
         laurel: 'Growth Lead',
       },

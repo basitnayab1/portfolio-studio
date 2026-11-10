@@ -6,7 +6,7 @@ import { EASE, Magnetic } from './fx';
 
 /**
  * The signature opening cinematic sequence:
- * black → studio card → AGENCY STUDIOS → THE SERIES → visual reveal → roles → ▶ SELECT PROFILE
+ * black → studio card → CINETRIO STUDIOS → THE SERIES → visual reveal → roles → ▶ SELECT PROFILE
  */
 const TIMELINE = [
   { at: 300, beat: 1 }, // studio card

@@ -1,56 +1,54 @@
-// Builds optimized portrait assets from the original photos in the project root.
-// pic1.jpeg = high-resolution source, pic.png = background-removed cutout (same framing).
-// The cutout's alpha mask is upscaled and applied to the high-res photo so the face stays sharp.
+// Builds Cinetrio brand images into public/assets:
+//   og-image.jpg            social share card (1200x630) from cinetrio-logo.png
+//   ahram-portrait.webp     monogram placeholder until Ahram's photo is added
+//   faraz-portrait.webp     monogram placeholder until Faraz's photo is added
+// Run: npm run images
 import sharp from 'sharp';
-import { mkdirSync } from 'node:fs';
 
 const OUT = 'public/assets';
-mkdirSync(OUT, { recursive: true });
 
-const hi = sharp('pic1.jpeg');
-const { width, height } = await hi.metadata();
-
-const alpha = await sharp('pic.png')
-  .ensureAlpha()
-  .extractChannel('alpha')
-  .resize(width, height, { kernel: 'lanczos3' })
-  .blur(0.8)
-  .raw()
-  .toBuffer();
-
-const rgb = await sharp('pic1.jpeg').removeAlpha().raw().toBuffer();
-const rgba = Buffer.alloc(width * height * 4);
-for (let i = 0; i < width * height; i++) {
-  rgba[i * 4] = rgb[i * 3];
-  rgba[i * 4 + 1] = rgb[i * 3 + 1];
-  rgba[i * 4 + 2] = rgb[i * 3 + 2];
-  rgba[i * 4 + 3] = alpha[i];
-}
-const cutout = await sharp(rgba, { raw: { width, height, channels: 4 } }).png().toBuffer();
-
-for (const w of [1100, 720, 420]) {
-  await sharp(cutout).resize({ width: w }).webp({ quality: 86, alphaQuality: 90 }).toFile(`${OUT}/portrait-${w}.webp`);
-}
-
-// Social share image (1200x630) on a dark backdrop
-const portrait = await sharp(cutout).resize({ height: 600 }).png().toBuffer();
+// ---- Social share image ----
+const logo = await sharp(`${OUT}/cinetrio-logo.png`).resize(630, 630).png().toBuffer();
 await sharp({ create: { width: 1200, height: 630, channels: 4, background: '#07070a' } })
   .composite([
+    { input: logo, left: 0, top: 0 },
     {
       input: Buffer.from(`<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
-        <defs><radialGradient id="g" cx="78%" cy="45%" r="45%"><stop offset="0" stop-color="#e5132b" stop-opacity="0.45"/><stop offset="1" stop-color="#e5132b" stop-opacity="0"/></radialGradient></defs>
-        <rect width="1200" height="630" fill="url(#g)"/>
+        <defs><linearGradient id="fade" x1="0" x2="1"><stop offset="0" stop-color="#07070a" stop-opacity="0"/><stop offset="1" stop-color="#07070a"/></linearGradient></defs>
+        <rect x="470" y="0" width="160" height="630" fill="url(#fade)"/>
+        <text x="680" y="270" font-family="Impact, 'Arial Narrow', sans-serif" font-size="96" fill="#f4f1ec" letter-spacing="4">CINETRIO</text>
+        <text x="686" y="322" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="24" fill="#ff3d5a" letter-spacing="12">STUDIOS • THE SERIES</text>
+        <text x="686" y="396" font-family="Helvetica, Arial, sans-serif" font-weight="600" font-size="17" fill="#a7a6ad" letter-spacing="3">AI &amp; FULL-STACK • VIDEO &amp; MOTION</text>
+        <text x="686" y="426" font-family="Helvetica, Arial, sans-serif" font-weight="600" font-size="17" fill="#a7a6ad" letter-spacing="3">E-COMMERCE GROWTH</text>
       </svg>`),
-    },
-    { input: portrait, gravity: 'southeast' },
-    {
-      input: Buffer.from(`<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
-        <text x="72" y="300" font-family="Impact, 'Arial Narrow', sans-serif" font-size="128" fill="#f4f1ec" letter-spacing="4">SUSHMITA</text>
-        <text x="78" y="352" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="26" fill="#ff3d5a" letter-spacing="16">THE SERIES</text>
-        <text x="78" y="420" font-family="Helvetica, Arial, sans-serif" font-weight="600" font-size="18" fill="#a7a6ad" letter-spacing="5">FULL-STACK DEVELOPER • AI / ML • JAVA</text>
-      </svg>`),
+      left: 0,
+      top: 0,
     },
   ])
-  .jpeg({ quality: 85 })
+  .jpeg({ quality: 86 })
   .toFile(`${OUT}/og-image.jpg`);
+
+// ---- Monogram placeholders (transparent, bottom-anchored like a cutout) ----
+const monogram = (initials, color, label) =>
+  Buffer.from(`<svg width="900" height="1150" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="glow" cx="50%" cy="45%" r="50%">
+        <stop offset="0" stop-color="${color}" stop-opacity="0.55"/>
+        <stop offset="1" stop-color="${color}" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="${color}" stop-opacity="0.55"/>
+        <stop offset="1" stop-color="#0b0b10" stop-opacity="0.9"/>
+      </linearGradient>
+    </defs>
+    <circle cx="450" cy="520" r="430" fill="url(#glow)"/>
+    <circle cx="450" cy="430" r="190" fill="url(#body)" stroke="${color}" stroke-opacity="0.8" stroke-width="4"/>
+    <path d="M90 1150 C 110 830, 260 700, 450 700 C 640 700, 790 830, 810 1150 Z" fill="url(#body)" stroke="${color}" stroke-opacity="0.8" stroke-width="4"/>
+    <text x="450" y="482" text-anchor="middle" font-family="Impact, 'Arial Narrow', sans-serif" font-size="150" fill="#f4f1ec" letter-spacing="6">${initials}</text>
+    <text x="450" y="960" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="30" fill="#f4f1ec" fill-opacity="0.85" letter-spacing="10">${label}</text>
+  </svg>`);
+
+await sharp(monogram('AA', '#8b5cf6', 'VIDEO • MOTION')).webp({ quality: 88 }).toFile(`${OUT}/ahram-portrait.webp`);
+await sharp(monogram('MF', '#10b981', 'E-COMMERCE')).webp({ quality: 88 }).toFile(`${OUT}/faraz-portrait.webp`);
+
 console.log('images built');

@@ -91,7 +91,7 @@ export default function FinalCTA({ onReplay, profileId }: { onReplay: () => void
           ↺ TOP OF PAGE
         </button>
         <button type="button" onClick={onReplay} className="hover:text-bone">
-          ▶ REPLAY AGENCY INTRO
+          ▶ REPLAY CINETRIO INTRO
         </button>
       </div>
 
