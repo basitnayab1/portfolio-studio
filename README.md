@@ -41,15 +41,15 @@ The static site is written to `dist/` and can be deployed as-is to Vercel, Netli
 | Profile order (Recruiter / Developer / Creative) | `viewerProfiles` |
 | Opening studio card text | `profile.originalLabel` |
 
-**Photos:** each lead's `portrait` in `memberProfiles` (src/data/portfolio.ts). Faraz uses a background-removed cutout (`faraz-cutout.*`, from `faraz.jpeg`). Ahram uses a generated monogram placeholder (`ahram-portrait.webp`) until a real photo is added.
+**Photos:** each lead's `portrait` in `memberProfiles` (src/data/portfolio.ts). Ahram and Faraz use background-removed cutouts (`ahram-cutout.*` from `ahram.jpeg`, `faraz-cutout.*` from `faraz.jpeg`).
 
-**Brand images:** the social share card is built from `public/assets/cinetrio-logo.png`. To rebuild it and the placeholders, run:
+**Brand images:** the social share card is built from `public/assets/cinetrio-logo.png`. To rebuild it, run:
 
 ```bash
 npm run images
 ```
 
-This writes `og-image.jpg` and `ahram-portrait.webp` in `public/assets/`.
+This writes `og-image.jpg` in `public/assets/`.
 
 ## What's inside
 

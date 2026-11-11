@@ -196,6 +196,7 @@ export const viewerProfiles: {
     glyph: '✦',
     blurb: 'Video Editing, Motion Graphics & AI Content',
     color: '#8b5cf6',
+    avatarImg: '/assets/ahram-cutout-420.webp',
     order: ['originals', 'screenings', 'about', 'skills', 'picks', 'journey', 'moments', 'story'],
   },
   {
@@ -550,15 +551,16 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
       'Lead Creative Editor and Motion Designer delivering cinematic video editing, dynamic 2D/3D motion graphics, brand identity systems, and cutting-edge AI-generated content that stops the scroll and drives viral audience retention.',
     location: 'Remote / Global',
     email: 'ahramali@gmail.com',
+    avatarImg: '/assets/ahram-cutout-420.webp',
     links: {
       linkedin: 'https://linkedin.com',
       youtube: 'https://youtube.com',
       behance: 'https://behance.net',
     },
     portrait: {
-      src: '/assets/ahram-portrait.webp',
-      srcSet: '/assets/ahram-portrait.webp 900w',
-      alt: 'Ahram Ali — Video & Motion lead',
+      src: '/assets/ahram-cutout.webp',
+      srcSet: '/assets/ahram-cutout-420.webp 420w, /assets/ahram-cutout.webp 896w',
+      alt: 'Portrait of Ahram Ali',
     },
     interests: ['Cinematic Pacing', '3D Motion Typography', 'Generative AI Media', 'Brand Art Direction'],
     facts: [
