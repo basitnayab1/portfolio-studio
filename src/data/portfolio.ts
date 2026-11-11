@@ -596,17 +596,17 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     projects: [
       {
         id: 'cinematic-commercial-reel',
-        title: 'Cinematic Commercial Showreel',
+        title: 'Podcasts & Documentaries',
         year: '2026',
-        genre: 'Video Production • Sound Design • Color Grading',
-        logline: 'High-octane commercial video showreel combining dynamic sound design, precision pacing, and DaVinci color grading.',
+        genre: 'Podcast Editing • Documentary • Sound Design',
+        logline: 'Full-length podcast episodes and documentary edits with multi-cam cutting, clean dialogue audio, story-driven pacing, and DaVinci color grading.',
         stack: ['Premiere Pro', 'DaVinci Resolve', 'Sound Design', 'Color Grading'],
         build: [
-          'Produced and edited commercial showreels for top agency clients, increasing viewer retention to 85% on average.',
+          'Edited full-length podcast episodes and Urdu documentaries for creators, keeping 50-minute conversations tight and watchable.',
           'Mastered cinematic audio with sound effects, foley, and stem mixing for immersive playback across all devices.',
         ],
         features: [
-          'Cinematic rhythm & beat-matched transitions',
+          'Multi-cam podcast cutting & speaker switching',
           'Film emulation & custom LUT color grading',
           'Multi-layered audio soundscaping',
           '4K UHD export optimized for social & web',
@@ -767,7 +767,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
       },
     ],
     skillEvidence: {
-      'Premiere Pro': ['Cinematic Commercial Showreel', 'Commercial Ads & Long-Form Video'],
+      'Premiere Pro': ['Podcasts & Documentaries', 'Commercial Ads & Long-Form Video'],
       'After Effects': ['3D Motion Graphics & Brand Suite', 'Broadcast Typography'],
       'DaVinci Resolve': ['Color Grading & Film Emulation', 'Audio Mastering'],
       'AI Content': ['Viral AI Content & Avatar Campaigns', 'Runway Gen-3 Pipelines'],
