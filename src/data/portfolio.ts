@@ -17,6 +17,9 @@ export type ScreeningShelf = { title: string; blurb: string; videos: Screening[]
 
 export type Metric = { value: string; label: string };
 
+/** Transparent 360° image sequence: frames at `${base}00.webp` … ; frame 0 faces the camera. */
+export type Turntable = { base: string; count: number };
+
 export type Project = {
   id: string;
   title: string;
@@ -85,7 +88,8 @@ export interface MemberProfile {
   intro: string;
   location: string;
   email: string;
-  videoSrc?: string;
+  /** Drag-to-rotate 360° model shown instead of the still portrait. */
+  turntable?: Turntable;
   avatarImg?: string;
   links: {
     linkedin?: string;
@@ -232,7 +236,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
       'Full Stack Developer & AI Engineer architecting autonomous AI agents, enterprise LLM chatbots, high-throughput microservices, and modern web applications with React, Node.js, Python, and scalable cloud architectures.',
     location: 'Remote / Global',
     email: 'basitnayab@gmail.com',
-    videoSrc: '/assets/basit-360.mp4',
+    turntable: { base: '/assets/basit-360/', count: 48 },
     avatarImg: '/assets/basit-cutout.webp',
     links: {
       linkedin: 'https://linkedin.com',

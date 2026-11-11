@@ -1,3 +1,4 @@
+import Turntable from './Turntable';
 import { useRef } from 'react';
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion';
 import { getProfile, type ProfileId } from '../data/portfolio';
@@ -109,20 +110,18 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
               boxShadow: `0 0 120px ${p.color}44, inset 0 0 80px ${p.color}22`,
             }}
           />
-          {p.videoSrc ? (
+          {p.turntable ? (
             <div className="absolute inset-0 flex items-end justify-center">
-              <video
-                src={p.videoSrc}
-                poster={p.portrait.src}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="absolute bottom-0 left-1/2 h-full w-auto max-w-none -translate-x-1/2 object-contain object-bottom drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)] [mask-image:linear-gradient(to_bottom,black_65%,transparent_98%)]"
+              {/* soft floor shadow so the model sits on the page instead of floating */}
+              <div aria-hidden className="absolute bottom-[2%] left-1/2 h-[7%] w-[46%] -translate-x-1/2 rounded-[50%] bg-black/70 blur-2xl" />
+              <Turntable
+                data={p.turntable}
+                alt={p.portrait.alt}
+                className="absolute bottom-0 left-1/2 h-[92%] -translate-x-1/2 drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)] [mask-image:linear-gradient(to_bottom,black_72%,transparent_99%)]"
               />
-              <div className="absolute top-6 right-6 hidden sm:flex items-center gap-2 rounded-full bg-black/60 border border-crimson/40 px-3 py-1 backdrop-blur text-[10px] font-mono tracking-widest text-bone">
-                <span className="h-2 w-2 rounded-full bg-crimson animate-ping" />
-                <span>360° MODEL</span>
+              <div className="pointer-events-none absolute top-6 right-6 hidden sm:flex items-center gap-2 rounded-full bg-black/60 border border-crimson/40 px-3 py-1 backdrop-blur text-[10px] font-mono tracking-widest text-bone">
+                <span aria-hidden>⟲</span>
+                <span>360° · DRAG TO ROTATE</span>
               </div>
             </div>
           ) : (
@@ -149,9 +148,9 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
       </motion.div>
 
       {/* readability gradients */}
-      <div aria-hidden className="absolute inset-x-0 top-[40svh] z-[3] h-[36svh] bg-gradient-to-b from-transparent via-ink/70 to-ink lg:hidden" />
-      <div aria-hidden className="absolute inset-0 z-[3] hidden bg-[linear-gradient(90deg,var(--color-ink)_0%,rgba(7,7,10,0.7)_32%,transparent_58%)] lg:block" />
-      <div aria-hidden className="absolute inset-x-0 bottom-0 z-[3] h-48 bg-gradient-to-t from-ink to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[40svh] z-[3] h-[36svh] bg-gradient-to-b from-transparent via-ink/70 to-ink lg:hidden" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-[3] hidden bg-[linear-gradient(90deg,var(--color-ink)_0%,rgba(7,7,10,0.7)_32%,transparent_58%)] lg:block" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-48 bg-gradient-to-t from-ink to-transparent" />
 
       {/* copy */}
       <motion.div

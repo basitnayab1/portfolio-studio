@@ -1,3 +1,4 @@
+import { turntableFrame } from './Turntable';
 import { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion, useMotionValue } from 'framer-motion';
 import { getProfile, type ProfileId } from '../data/portfolio';
@@ -98,14 +99,10 @@ export default function PlayIntro({ onClose, profileId }: { onClose: () => void;
         transition={{ duration: phase === 'zoom' ? 1.7 : 1.2, ease: [0.7, 0, 0.2, 1], times: phase === 'zoom' ? [0, 0.3, 1] : undefined }}
         style={{ transformOrigin: '50% 30%' }}
       >
-        {p.videoSrc ? (
-          <video
-            src={p.videoSrc}
-            poster={p.portrait.src}
-            autoPlay
-            loop
-            muted
-            playsInline
+        {p.turntable ? (
+          <img
+            src={turntableFrame(p.turntable, 0)}
+            alt=""
             className="h-[88vh] w-auto max-w-none object-contain [mask-image:linear-gradient(to_bottom,black_60%,transparent)]"
           />
         ) : (

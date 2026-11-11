@@ -1,3 +1,4 @@
+import Turntable from './Turntable';
 import { motion } from 'framer-motion';
 import { getProfile, type ProfileId } from '../data/portfolio';
 import { EASE, SectionHeading, Tilt } from './fx';
@@ -26,16 +27,8 @@ export default function About({ profileId }: { profileId?: ProfileId }) {
                 }}
               />
               <div className="absolute inset-0 opacity-50 [background-image:repeating-linear-gradient(90deg,rgba(255,255,255,0.03)_0px,rgba(255,255,255,0.03)_1px,transparent_1px,transparent_28px)]" />
-              {p.videoSrc ? (
-                <video
-                  src={p.videoSrc}
-                  poster={p.portrait.src}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="absolute bottom-0 left-1/2 h-[94%] w-auto max-w-none -translate-x-1/2 object-contain object-bottom"
-                />
+              {p.turntable ? (
+                <Turntable data={p.turntable} alt={p.portrait.alt} className="absolute bottom-0 left-1/2 h-[92%] -translate-x-1/2" />
               ) : (
                 <img
                   src={p.portrait.src}
