@@ -9,7 +9,11 @@
 export type Palette = { from: string; via: string; to: string; accent: string };
 
 export type ProfileId = 'basit' | 'ahram' | 'faraz';
-export type SectionId = 'about' | 'journey' | 'originals' | 'picks' | 'skills' | 'moments' | 'story';
+export type SectionId = 'about' | 'journey' | 'originals' | 'screenings' | 'picks' | 'skills' | 'moments' | 'story';
+
+/** A video hosted on YouTube, shown in the Screenings section. 'short' = vertical 9:16. */
+export type Screening = { id: string; title: string; runtime: string; format?: 'wide' | 'short' };
+export type ScreeningShelf = { title: string; blurb: string; videos: Screening[] };
 
 export type Metric = { value: string; label: string };
 
@@ -117,6 +121,8 @@ export interface MemberProfile {
   seasons: Season[];
   topPicks: TopPick[];
   introSlides: IntroSlide[];
+  /** Video work rows; the section only appears when the profile order includes 'screenings'. */
+  screenings?: ScreeningShelf[];
   order: SectionId[];
 }
 
@@ -190,7 +196,7 @@ export const viewerProfiles: {
     glyph: '✦',
     blurb: 'Video Editing, Motion Graphics & AI Content',
     color: '#8b5cf6',
-    order: ['originals', 'about', 'skills', 'picks', 'journey', 'moments', 'story'],
+    order: ['originals', 'screenings', 'about', 'skills', 'picks', 'journey', 'moments', 'story'],
   },
   {
     id: 'faraz',
@@ -839,7 +845,54 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
         chips: ['AI Video', 'Photoshop', 'Illustrator'],
       },
     ],
-    order: ['originals', 'about', 'skills', 'picks', 'journey', 'moments', 'story'],
+    screenings: [
+      {
+        title: 'SaaS Product Videos',
+        blurb: 'Launch promos and feature explainers for software products.',
+        videos: [
+          { id: 'ENsbjiBxBy4', title: 'SaaS Promo 01', runtime: '0:33' },
+          { id: 'nnSatLzA5VM', title: 'SaaS Promo 02', runtime: '1:08' },
+          { id: '8HmrDvbs-ZI', title: 'SaaS Promo 03', runtime: '0:40' },
+          { id: 'WrYtX6qMpOc', title: 'SaaS Promo 04', runtime: '0:46' },
+          { id: 'BSxOHECaYDg', title: 'SaaS Promo 05', runtime: '0:19' },
+          { id: 'SIe9OOXu7pg', title: 'SaaS Promo 06', runtime: '1:55' },
+          { id: 'OERP9r_1PmQ', title: 'SaaS Promo 07', runtime: '0:49' },
+          { id: 'K3i_DqyGynU', title: 'SaaS Promo 08', runtime: '1:08' },
+        ],
+      },
+      {
+        title: 'AI Video Edits',
+        blurb: 'Generative AI visuals cut to pace, sound and story.',
+        videos: [
+          { id: 'BMqq7xIqmNY', title: 'AI Video Edit 01', runtime: '1:07' },
+          { id: 'g9PbSbrkB3s', title: 'AI Video Edit 02', runtime: '4:53' },
+          { id: 'pqAG6TgtnC0', title: 'AI Video Edit 03', runtime: '2:27' },
+          { id: '-0O_ezpnbSQ', title: 'Brand Promo Sample', runtime: '0:11' },
+        ],
+      },
+      {
+        title: 'Shorts & Reels',
+        blurb: 'Vertical edits built for TikTok, Reels and Shorts.',
+        videos: [
+          { id: 'NpnP2KwC9SY', title: 'Reel 01', runtime: 'Short', format: 'short' },
+          { id: 'hLaK5-xESVU', title: 'Reel 02', runtime: 'Short', format: 'short' },
+          { id: 'JCF-uhfk0b8', title: 'Reel 03', runtime: 'Short', format: 'short' },
+          { id: '6p4R5mtmqlM', title: 'Reel 04', runtime: 'Short', format: 'short' },
+          { id: 'x2c1tbwXRNc', title: 'Reel 05', runtime: 'Short', format: 'short' },
+        ],
+      },
+      {
+        title: 'Documentaries & Podcasts',
+        blurb: 'Long-form storytelling and full podcast episode edits.',
+        videos: [
+          { id: '4Mu8DmEErhw', title: 'Pahalgam 2025 — Documentary Edit', runtime: '8:42' },
+          { id: 'ixPibzkhvHA', title: 'Hominids Before Adam — Urdu Documentary', runtime: '12:18' },
+          { id: '41101zwP9kE', title: 'Awais Podtalk ft. Dania Shah', runtime: '51:34' },
+          { id: 'lHbkzYJkJTc', title: 'Podcast Episode — Creator Talk', runtime: '52:19' },
+        ],
+      },
+    ],
+    order: ['originals', 'screenings', 'about', 'skills', 'picks', 'journey', 'moments', 'story'],
   },
 
   faraz: {
@@ -1181,6 +1234,7 @@ export const experience = memberProfiles.basit.experience;
 export const sectionMeta: Record<SectionId, { nav: string; card: string; meta: string; palette: Palette }> = {
   about: { nav: 'About', card: 'Lead Profile', meta: 'Background & Expertise', palette: violet },
   journey: { nav: 'Journey', card: 'Career Journey', meta: 'Career Seasons & Episodes', palette: amber },
+  screenings: { nav: 'Screenings', card: 'Now Streaming', meta: 'Edited Videos, Podcasts & Reels', palette: violet },
   originals: { nav: 'Originals', card: 'Client Productions', meta: 'Featured Projects & Case Studies', palette: crimson },
   picks: { nav: 'Top Picks', card: 'Top Highlights', meta: 'Proven Results & Key Metrics', palette: jade },
   skills: { nav: 'Skills', card: 'Skill Universe', meta: 'Tools, Tech & Stack', palette: ocean },

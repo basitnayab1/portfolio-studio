@@ -12,6 +12,7 @@ import Scene from './components/Scene';
 import About from './components/About';
 import Seasons from './components/Seasons';
 import Originals from './components/Originals';
+import Screenings from './components/Screenings';
 import TopPicks from './components/TopPicks';
 import Skills from './components/Skills';
 import Achievements from './components/Achievements';
@@ -98,6 +99,7 @@ function Series() {
     about: <About profileId={profileId} />,
     journey: <Seasons profileId={profileId} />,
     originals: <Originals profileId={profileId} onOpen={setProject} />,
+    screenings: <Screenings profileId={profileId} />,
     picks: <TopPicks profileId={profileId} />,
     skills: <Skills profileId={profileId} />,
     moments: <Achievements profileId={profileId} />,
