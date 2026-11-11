@@ -29,6 +29,8 @@ export type Project = {
   metrics: Metric[];
   github?: string;
   demo?: string;
+  /** YouTube ids from the profile's screenings; the first one is the featured reel. */
+  videos?: string[];
   palette: Palette;
   motif: 'shield' | 'flow' | 'tenants' | 'agent' | 'video' | 'commerce';
 };
@@ -234,7 +236,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     avatarImg: '/assets/basit-cutout.webp',
     links: {
       linkedin: 'https://linkedin.com',
-      github: 'https://github.com',
+      github: 'https://github.com/basitnayab1',
     },
     portrait: {
       src: '/assets/basit-cutout.webp',
@@ -294,7 +296,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
           { value: '99.4%', label: 'execution accuracy' },
           { value: '<1.2s', label: 'average decision latency' },
         ],
-        github: 'https://github.com',
+        github: 'https://github.com/basitnayab1',
         palette: crimson,
         motif: 'agent',
       },
@@ -347,7 +349,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
           { value: '40%', label: 'faster response time' },
           { value: 'Zero', label: 'security breaches' },
         ],
-        github: 'https://github.com',
+        github: 'https://github.com/basitnayab1',
         palette: ocean,
         motif: 'tenants',
       },
@@ -616,6 +618,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
           { value: '4K', label: 'cinematic master output' },
         ],
         palette: violet,
+        videos: ['41101zwP9kE', 'lHbkzYJkJTc', 'ixPibzkhvHA', '4Mu8DmEErhw'],
         motif: 'video',
       },
       {
@@ -642,6 +645,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
           { value: '60fps', label: 'fluid motion rendering' },
         ],
         palette: crimson,
+        videos: ['SIe9OOXu7pg', 'ENsbjiBxBy4', 'nnSatLzA5VM', '8HmrDvbs-ZI', 'WrYtX6qMpOc', 'BSxOHECaYDg', 'OERP9r_1PmQ', 'K3i_DqyGynU', '-0O_ezpnbSQ'],
         motif: 'flow',
       },
       {
@@ -668,6 +672,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
           { value: '3x', label: 'client audience growth' },
         ],
         palette: amber,
+        videos: ['g9PbSbrkB3s', 'BMqq7xIqmNY', 'pqAG6TgtnC0', 'NpnP2KwC9SY', 'hLaK5-xESVU', 'JCF-uhfk0b8', '6p4R5mtmqlM', 'x2c1tbwXRNc'],
         motif: 'agent',
       },
     ],
@@ -1223,6 +1228,17 @@ export function getProfile(id?: ProfileId | null): MemberProfile {
 /** Global default exports for backward compatibility */
 export const profile = memberProfiles.basit;
 export const projects = memberProfiles.basit.projects;
+
+/** The profile a project belongs to (falls back to Basit). */
+export function ownerOfProject(projectId: string): MemberProfile {
+  return Object.values(memberProfiles).find((m) => m.projects.some((p) => p.id === projectId)) ?? memberProfiles.basit;
+}
+
+/** Resolve a project's video ids to the screenings they refer to. */
+export function projectVideos(project: Project): Screening[] {
+  const all = ownerOfProject(project.id).screenings?.flatMap((s) => s.videos) ?? [];
+  return (project.videos ?? []).map((id) => all.find((v) => v.id === id)).filter((v): v is Screening => Boolean(v));
+}
 export const achievements = memberProfiles.basit.achievements;
 export const certifications = memberProfiles.basit.certifications;
 export const skillCategories = memberProfiles.basit.skillCategories;

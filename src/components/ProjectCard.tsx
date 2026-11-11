@@ -1,9 +1,16 @@
-import { motion } from 'framer-motion';
-import type { Project } from '../data/portfolio';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import { projectVideos, type Project, type Screening } from '../data/portfolio';
 import { EASE, Tilt } from './fx';
-import { ProjectArt } from './Poster';
+import { CinetrioGlyph, ProjectArt } from './Poster';
+import { Player, thumbnail } from './Screenings';
 
 export default function ProjectCard({ project, index, onOpen }: { project: Project; index: number; onOpen: () => void }) {
+  const videos = projectVideos(project);
+  const featured = videos[0];
+  const [playing, setPlaying] = useState<Screening | null>(null);
+
   return (
     <motion.article
       className="w-[84vw] shrink-0 snap-start sm:w-[62vw] lg:w-[46vw] xl:w-[42vw]"
@@ -30,11 +37,24 @@ export default function ProjectCard({ project, index, onOpen }: { project: Proje
           <motion.div layoutId={`art-${project.id}`} className="absolute inset-0 overflow-hidden rounded-2xl">
             <div className="absolute inset-0 transition-transform duration-[1.4s] ease-[var(--ease-cine)] group-hover:scale-[1.07]">
               <ProjectArt project={project} />
+              {featured && (
+                <>
+                  {/* featured reel still, blended into the poster art */}
+                  <img
+                    src={thumbnail(featured.id)}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover opacity-55 mix-blend-luminosity"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/20" />
+                </>
+              )}
             </div>
           </motion.div>
 
           <div className="absolute left-5 top-5 flex items-center gap-2 sm:left-7 sm:top-7">
-            <span className="font-display text-xl leading-none text-crimson-2">S</span>
+            <CinetrioGlyph className="h-5 w-auto" />
             <span className="text-[10px] font-bold tracking-[0.34em] text-bone/80">ORIGINAL</span>
           </div>
           <span className="absolute right-5 top-5 rounded border border-white/30 px-1.5 py-px text-[10px] font-bold text-bone sm:right-7 sm:top-7">{project.year}</span>
@@ -53,7 +73,26 @@ export default function ProjectCard({ project, index, onOpen }: { project: Proje
               ))}
             </div>
             <div className="mt-5 flex flex-wrap items-center gap-3">
-              <span className="flex min-h-11 items-center gap-2 rounded-md bg-bone px-5 text-sm font-bold text-ink transition group-hover:bg-white">▶ View Project</span>
+              {featured ? (
+                <>
+                  <button
+                    type="button"
+                    data-cursor="play"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setPlaying(featured);
+                    }}
+                    className="flex min-h-11 items-center gap-2 rounded-md bg-bone px-5 text-sm font-bold text-ink transition hover:bg-white"
+                  >
+                    ▶ Play Reel
+                  </button>
+                  <span className="flex min-h-11 items-center gap-2 rounded-md border border-white/25 bg-black/30 px-4 text-sm font-semibold text-bone backdrop-blur transition group-hover:border-bone">
+                    {videos.length} Videos · View Project
+                  </span>
+                </>
+              ) : (
+                <span className="flex min-h-11 items-center gap-2 rounded-md bg-bone px-5 text-sm font-bold text-ink transition group-hover:bg-white">▶ View Project</span>
+              )}
               {project.github && (
                 <a
                   href={project.github}
@@ -70,6 +109,10 @@ export default function ProjectCard({ project, index, onOpen }: { project: Proje
           </div>
         </div>
       </Tilt>
+      {createPortal(
+        <AnimatePresence>{playing && <Player key={playing.id} video={playing} onClose={() => setPlaying(null)} />}</AnimatePresence>,
+        document.body,
+      )}
     </motion.article>
   );
 }

@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion';
 import { getProfile, type ProfileId, type Project } from '../data/portfolio';
 import { useDesktop, useReducedMotionPref } from '../hooks/useMedia';
+import { useSmoothScroll } from '../hooks/smoothScroll';
 import { EASE, RevealText } from './fx';
 import ProjectCard from './ProjectCard';
 
@@ -36,6 +37,25 @@ function Intro({ profileId }: { profileId?: ProfileId }) {
 
 function Outro({ profileId }: { profileId?: ProfileId }) {
   const p = getProfile(profileId);
+  const { scrollTo } = useSmoothScroll();
+  const videoCount = p.screenings?.reduce((n, s) => n + s.videos.length, 0) ?? 0;
+
+  // Profiles with video work end the row with a jump to their Screenings instead of an external link.
+  if (videoCount > 0) {
+    return (
+      <button
+        type="button"
+        onClick={() => scrollTo('#screenings')}
+        data-cursor="play"
+        className="group flex aspect-[3/4] w-[70vw] shrink-0 snap-start flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-white/15 text-center transition hover:border-crimson-2/60 sm:w-[44vw] lg:aspect-auto lg:h-[66vh] lg:w-[24vw]"
+      >
+        <span className="flex h-16 w-16 items-center justify-center rounded-full border border-white/25 text-2xl text-bone transition group-hover:scale-110 group-hover:border-crimson-2 group-hover:text-crimson-2">▶</span>
+        <span className="font-display text-3xl tracking-wide text-bone">Watch All {videoCount} Videos</span>
+        <span className="text-xs text-mist">{p.fullName} · Screenings</span>
+      </button>
+    );
+  }
+
   const link = p.links.github || p.links.linkedin || '#';
   const label = p.links.github ? 'View GitHub' : 'Connect on LinkedIn';
 

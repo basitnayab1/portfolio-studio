@@ -131,16 +131,22 @@ export function ProjectArt({ project, className = '' }: { project: Project; clas
   );
 }
 
+/** Cinetrio "C": three arcs for the three leads (AI · Media · Commerce). */
+export function CinetrioGlyph({ className = 'h-[1.1em] w-auto' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} aria-hidden>
+      <path d="M24.5 7.5A12 12 0 0 0 9 5.6" fill="none" stroke="#a855f7" strokeWidth="4" strokeLinecap="round" />
+      <path d="M9 5.6A12 12 0 0 0 7 25" fill="none" stroke="#e5132b" strokeWidth="4" strokeLinecap="round" />
+      <path d="M7 25A12 12 0 0 0 24.5 24.5" fill="none" stroke="#10b981" strokeWidth="4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 /** Small fictional platform mark used in the nav and on cards. */
 export function SeriesMark({ className = '' }: { className?: string }) {
   return (
     <span className={`inline-flex items-center gap-1.5 ${className}`}>
-      {/* Cinetrio "C": three arcs for the three leads (AI · Media · Commerce) */}
-      <svg viewBox="0 0 32 32" className="h-[1.1em] w-auto" aria-hidden>
-        <path d="M24.5 7.5A12 12 0 0 0 9 5.6" fill="none" stroke="#a855f7" strokeWidth="4" strokeLinecap="round" />
-        <path d="M9 5.6A12 12 0 0 0 7 25" fill="none" stroke="#e5132b" strokeWidth="4" strokeLinecap="round" />
-        <path d="M7 25A12 12 0 0 0 24.5 24.5" fill="none" stroke="#10b981" strokeWidth="4" strokeLinecap="round" />
-      </svg>
+      <CinetrioGlyph />
       <span className="font-sans text-[0.62em] font-bold tracking-[0.36em] text-mist">CINETRIO</span>
     </span>
   );

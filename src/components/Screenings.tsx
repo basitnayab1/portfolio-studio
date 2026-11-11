@@ -58,7 +58,7 @@ function Shelf({ shelf, onPlay }: { shelf: ScreeningShelf; onPlay: (v: Screening
   );
 }
 
-function VideoCard({ video, index, onPlay }: { video: Screening; index: number; onPlay: (v: Screening) => void }) {
+export function VideoCard({ video, index, onPlay, className }: { video: Screening; index: number; onPlay: (v: Screening) => void; className?: string }) {
   const short = video.format === 'short';
   return (
     <motion.button
@@ -66,7 +66,7 @@ function VideoCard({ video, index, onPlay }: { video: Screening; index: number; 
       data-cursor="play"
       onClick={() => onPlay(video)}
       aria-label={`Play ${video.title}`}
-      className={`group relative shrink-0 snap-start text-left ${short ? 'w-[40vw] sm:w-[200px]' : 'w-[72vw] sm:w-[42vw] md:w-[30vw] lg:w-[22vw]'}`}
+      className={`group relative shrink-0 snap-start text-left ${className ?? (short ? 'w-[40vw] sm:w-[200px]' : 'w-[72vw] sm:w-[42vw] md:w-[30vw] lg:w-[22vw]')}`}
       initial={{ opacity: 0, x: 40 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: '0px -5% 0px 0px' }}
@@ -76,7 +76,7 @@ function VideoCard({ video, index, onPlay }: { video: Screening; index: number; 
         className={`relative w-full overflow-hidden rounded-lg bg-white/5 ring-1 ring-white/10 transition duration-500 group-hover:shadow-[0_20px_60px_rgba(0,0,0,0.6),0_0_0_1px_rgba(185,139,255,0.7)] ${short ? 'aspect-[9/16]' : 'aspect-video'}`}
       >
         <img
-          src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
+          src={thumbnail(video.id)}
           alt=""
           loading="lazy"
           decoding="async"
@@ -93,20 +93,28 @@ function VideoCard({ video, index, onPlay }: { video: Screening; index: number; 
   );
 }
 
+/** YouTube thumbnail for a video id (4:3 with letterbox; crop it with object-cover). */
+export const thumbnail = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
 /** Height (px) of YouTube's in-player title bar that we crop off the top. */
 const TOP_BAR = 64;
 
-function Player({ video, onClose }: { video: Screening; onClose: () => void }) {
+export function Player({ video, onClose }: { video: Screening; onClose: () => void }) {
   const short = video.format === 'short';
   const params = new URLSearchParams({ autoplay: '1', rel: '0', modestbranding: '1', iv_load_policy: '3', playsinline: '1', color: 'white' });
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
-    window.addEventListener('keydown', onKey);
+    // capture + stopPropagation so Escape closes only the player, not a project modal underneath
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      e.stopPropagation();
+      onClose();
+    };
+    window.addEventListener('keydown', onKey, true);
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
-      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('keydown', onKey, true);
       document.body.style.overflow = prev;
     };
   }, [onClose]);

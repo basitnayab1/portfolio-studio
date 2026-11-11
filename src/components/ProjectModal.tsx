@@ -1,9 +1,11 @@
-import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { projects, type Project } from '../data/portfolio';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ownerOfProject, projectVideos, type Project, type Screening } from '../data/portfolio';
 import { useScrollLock } from '../hooks/smoothScroll';
 import { EASE, Magnetic } from './fx';
-import { ProjectArt } from './Poster';
+import { CinetrioGlyph, ProjectArt } from './Poster';
+import { Player, VideoCard } from './Screenings';
 
 const block = {
   hidden: { opacity: 0, y: 24, filter: 'blur(8px)' },
@@ -30,7 +32,9 @@ export default function ProjectModal({ project, onClose, onSwitch }: { project: 
     scroller.current?.scrollTo({ top: 0 });
   }, [project.id]);
 
-  const more = projects.filter((p) => p.id !== project.id);
+  const more = ownerOfProject(project.id).projects.filter((p) => p.id !== project.id);
+  const videos = projectVideos(project);
+  const [playing, setPlaying] = useState<Screening | null>(null);
 
   return (
     <motion.div className="fixed inset-0 z-[140]" role="dialog" aria-modal="true" aria-labelledby={`title-${project.id}-modal`}>
@@ -67,7 +71,7 @@ export default function ProjectModal({ project, onClose, onSwitch }: { project: 
             </button>
             <div className="absolute inset-x-0 bottom-0 px-5 pb-6 sm:px-10">
               <motion.p className="mb-2 flex items-center gap-2 text-[11px] font-bold tracking-[0.34em] text-bone/80" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
-                <span className="font-display text-xl tracking-normal text-crimson-2">S</span> ORIGINAL
+                <CinetrioGlyph className="h-5 w-auto" /> ORIGINAL
               </motion.p>
               <motion.h2
                 id={`title-${project.id}-modal`}
@@ -105,6 +109,17 @@ export default function ProjectModal({ project, onClose, onSwitch }: { project: 
                   </a>
                 </Magnetic>
               </motion.div>
+            )}
+
+            {videos.length > 0 && (
+              <motion.section variants={block} className="mt-10">
+                <h3 className="mb-4 text-[11px] font-bold uppercase tracking-[0.3em] text-crimson-2">Watch · {videos.length} Videos</h3>
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                  {videos.map((v, i) => (
+                    <VideoCard key={v.id} video={v} index={i} onPlay={setPlaying} className="w-full" />
+                  ))}
+                </div>
+              </motion.section>
             )}
 
             {/* impact */}
@@ -191,6 +206,10 @@ export default function ProjectModal({ project, onClose, onSwitch }: { project: 
           </motion.div>
         </motion.div>
       </div>
+      {createPortal(
+        <AnimatePresence>{playing && <Player key={playing.id} video={playing} onClose={() => setPlaying(null)} />}</AnimatePresence>,
+        document.body,
+      )}
     </motion.div>
   );
 }
