@@ -140,7 +140,7 @@ export default function ProfileSelector({ onPick }: { onPick: (id: ProfileId) =>
       </motion.ul>
 
       <p className="relative mt-12 max-w-md text-center text-xs leading-relaxed text-smoke">
-        Agency Specialization: Full-Stack &amp; AI Engineering • Video &amp; Motion Graphics • E-Commerce Growth
+        Agency Specialization: Full-Stack &amp; AI Engineering • Video &amp; Motion Graphics • Business Development &amp; E-Commerce
       </p>
     </motion.div>
   );

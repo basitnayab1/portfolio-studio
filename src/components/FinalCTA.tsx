@@ -100,7 +100,7 @@ export default function FinalCTA({ onReplay, profileId }: { onReplay: () => void
           <SeriesMark />
         </div>
         <p className="text-[11px] leading-relaxed text-smoke">
-          © {new Date().getFullYear()} {agency.name} — Dedicated Agency Leads: Basit Nayab (AI &amp; Dev) • Ahram Ali (Video &amp; Motion) • Muhammad Faraz (E-Commerce).
+          © {new Date().getFullYear()} {agency.name} — Dedicated Agency Leads: Basit Nayab (AI &amp; Dev) • Ahram Ali (Video &amp; Motion) • Muhammad Faraz (Business Development &amp; E-Commerce).
         </p>
       </footer>
     </section>

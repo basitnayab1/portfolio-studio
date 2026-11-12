@@ -161,10 +161,10 @@ export const agency = {
       tags: ['Video Editing', 'Motion Graphics', 'AI Content', 'Graphic Design', 'After Effects', 'Premiere'],
     },
     {
-      title: 'E-Commerce Growth & Scaling',
+      title: 'Business Development & E-Commerce Growth',
       lead: 'Muhammad Faraz',
-      desc: 'End-to-End TikTok Shop, Amazon FBA/FBM, and eBay Store Launch, Sourcing, PPC, and Scaling.',
-      tags: ['TikTok Shop', 'Amazon FBA', 'eBay', 'PPC Ads', 'Product Hunting', 'Scaling'],
+      desc: 'Client Acquisition, Strategic Partnerships, and End-to-End TikTok Shop, Amazon FBA/FBM, and eBay Growth.',
+      tags: ['Business Development', 'Client Acquisition', 'Partnerships', 'TikTok Shop', 'Amazon FBA', 'eBay'],
     },
   ],
 };
@@ -209,10 +209,10 @@ export const viewerProfiles: {
     id: 'faraz',
     name: 'Muhammad Faraz',
     fullName: 'Muhammad Faraz',
-    role: 'E-Commerce Specialist & Growth Lead',
-    badge: 'ECOMMERCE',
+    role: 'Business Development & Growth Strategist',
+    badge: 'BIZ DEV',
     glyph: '🛒',
-    blurb: 'TikTok Shop, eBay & Amazon Scaling',
+    blurb: 'Client Acquisition, Partnerships & E-Commerce Growth',
     color: '#10b981',
     avatarImg: '/assets/faraz-cutout-420.webp',
     order: ['picks', 'originals', 'about', 'skills', 'journey', 'moments', 'story'],
@@ -911,15 +911,15 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     fullName: 'Muhammad Faraz',
     displayName: 'Muhammad Faraz',
     firstName: 'MUHAMMAD FARAZ',
-    seriesTag: 'E-COMMERCE & GROWTH LEAD',
+    seriesTag: 'BUSINESS DEVELOPMENT & GROWTH',
     originalLabel: 'A CINETRIO ORIGINAL',
-    role: 'E-Commerce Specialist & Growth Lead',
-    badge: 'ECOMMERCE',
+    role: 'Business Development & Growth Strategist',
+    badge: 'BIZ DEV',
     glyph: '🛒',
     color: '#10b981',
-    tagline: ['E-Commerce Growth', 'TikTok Shop Specialist', 'Amazon FBA/FBM', 'eBay Stores'],
+    tagline: ['Business Development', 'Client Acquisition', 'Digital Commerce', 'Strategic Partnerships'],
     intro:
-      'E-Commerce Growth Specialist scaling six and seven-figure online stores across TikTok Shop, Amazon FBA, and eBay through data-driven product hunting, high-converting listing optimization, aggressive PPC management, and automated fulfillment.',
+      'Business Development & Growth Strategist helping businesses find growth opportunities, build client and partner relationships, and connect commercial goals with practical digital solutions, backed by nearly five years of hands-on e-commerce across TikTok Shop, Amazon, and eBay.',
     location: 'Remote / Global',
     email: 'muhammadfaraz@gmail.com',
     avatarImg: '/assets/faraz-cutout-420.webp',
@@ -931,11 +931,11 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
       srcSet: '/assets/faraz-cutout-420.webp 420w, /assets/faraz-cutout.webp 1086w',
       alt: 'Portrait of Muhammad Faraz',
     },
-    interests: ['Marketplace Algorithms', 'Viral TikTok Shop Commerce', 'Global Supply Chain', 'Brand Scaling'],
+    interests: ['Strategic Partnerships', 'Client Relationships', 'Marketplace Algorithms', 'Brand Scaling'],
     facts: [
-      { k: 'Domain', v: 'E-Commerce Scaling', s: 'TikTok Shop, Amazon & eBay Management' },
+      { k: 'Domain', v: 'Business Development & Growth', s: 'Client Acquisition & Strategic Partnerships' },
+      { k: 'Experience', v: '~5 Years', s: 'E-Commerce & Digital Business' },
       { k: 'Marketplaces', v: 'TikTok Shop · Amazon · eBay', s: 'FBA, FBM, Dropship & Wholesale' },
-      { k: 'Growth Focus', v: 'PPC & Creator Affiliates', s: 'Listing SEO, Sourcing & Margin Strategy' },
       { k: 'Track Record', v: '$500K+ GMV Scaled', s: 'Top Rated Seller Status & High ROAS' },
     ],
     education: [
@@ -950,10 +950,13 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     experience: [
       {
         company: 'Cinetrio Studios',
-        role: 'E-Commerce Lead & Store Growth Specialist',
+        role: 'Business Development & Growth Lead',
         place: 'Global / Remote',
         period: '2024 – Present',
         points: [
+          'Identify business opportunities and develop new client relationships, from first conversation to agreed next steps.',
+          'Support proposal preparation, commercial discussions, negotiations, and follow-ups with prospective and existing clients.',
+          'Coordinate with the creative and technology leads to match client requirements with the right delivery capabilities.',
           'Scaled client e-commerce stores across TikTok Shop, Amazon FBA, and eBay with full listing optimization and PPC advertising.',
           'Built profitable creator affiliate networks on TikTok Shop resulting in viral multi-product sales spikes.',
           'Conducted deep product research, supplier vetting, and inventory forecasting to protect margins and eliminate stockouts.',
@@ -1078,6 +1081,19 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     ],
     skillCategories: [
       {
+        id: 'business-development',
+        title: 'Business Development',
+        subtitle: 'Clients, proposals & partnerships',
+        skills: [
+          { name: 'Lead Research & Qualification', mono: 'Lq', note: 'Primary' },
+          { name: 'Client Relationship Building', mono: 'Cr', note: 'Primary' },
+          { name: 'Proposal & Commercial Coordination', mono: 'Pc' },
+          { name: 'Sales & Negotiation Support', mono: 'Sn' },
+          { name: 'Strategic Partnerships', mono: 'Sp' },
+          { name: 'Requirement Gathering', mono: 'Rg' },
+        ],
+      },
+      {
         id: 'marketplaces',
         title: 'Marketplaces',
         subtitle: 'Core selling channels & platforms',
@@ -1131,6 +1147,8 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
       },
     ],
     skillEvidence: {
+      'Lead Research & Qualification': ['Finding and qualifying new client opportunities for Cinetrio Studios'],
+      'Client Relationship Building': ['Client conversations, expectation management and follow-through'],
       'TikTok Shop': ['TikTok Shop Launch & Creator Scaling', 'Creator Affiliate Network'],
       'Amazon FBA / FBM': ['Amazon FBA Brand Launch & SEO Ranking', 'Helium 10 Keyword Architecture'],
       'eBay Store': ['High-Volume eBay Store & Repricing Empire', 'Top Rated Seller Status'],
@@ -1190,6 +1208,7 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
       },
     ],
     topPicks: [
+      { label: 'Core Focus', title: 'Business Development', detail: 'Client acquisition & strategic partnerships', palette: violet },
       { label: 'E-Commerce Channel', title: 'TikTok Shop Growth', detail: 'Affiliates, Shop Ads & Live Sales', palette: jade },
       { label: 'Marketplace Pillar', title: 'Amazon FBA / FBM', detail: 'Private label, SEO & low-ACoS PPC', palette: amber },
       { label: 'High-Volume Channel', title: 'eBay Store Empire', detail: 'Top Rated Seller & auto-repricing', palette: ocean },
@@ -1199,10 +1218,10 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     ],
     introSlides: [
       {
-        kicker: 'E-Commerce Lead',
+        kicker: 'Business Development Lead',
         title: 'Muhammad Faraz',
-        lines: ['E-Commerce Specialist & Store Growth Lead', 'Agency Lead for TikTok Shop, Amazon & eBay'],
-        chips: ['TikTok Shop', 'Amazon FBA', 'eBay'],
+        lines: ['Business Development & Growth Strategist', 'Client acquisition, partnerships & digital commerce'],
+        chips: ['Business Development', 'Client Acquisition', 'E-Commerce'],
       },
       {
         kicker: 'Key Marketplaces',
