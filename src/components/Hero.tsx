@@ -2,7 +2,7 @@ import Turntable from './Turntable';
 import { useRef } from 'react';
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion';
 import { getProfile, type ProfileId } from '../data/portfolio';
-import { useFinePointer } from '../hooks/useMedia';
+import { useFinePointer, useReducedMotionPref } from '../hooks/useMedia';
 import { useSmoothScroll } from '../hooks/smoothScroll';
 import { EASE, Magnetic, Particles } from './fx';
 import { SeriesMark } from './Poster';
@@ -16,6 +16,7 @@ const item = {
 export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => void; onResume: () => void; profileId: ProfileId }) {
   const ref = useRef<HTMLElement>(null);
   const fine = useFinePointer();
+  const reduced = useReducedMotionPref();
   const { scrollTo } = useSmoothScroll();
   const p = getProfile(profileId);
 
@@ -69,10 +70,11 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
       ref={ref}
       className="relative min-h-[100svh] overflow-hidden"
       onPointerMove={(e) => {
-        if (!fine) return;
+        if (!fine || reduced) return;
         mx.set((e.clientX / window.innerWidth) * 2 - 1);
         my.set((e.clientY / window.innerHeight) * 2 - 1);
       }}
+      onPointerLeave={() => { mx.set(0); my.set(0); }}
     >
       {/* atmosphere with specialist accent glow */}
       <motion.div aria-hidden className="absolute inset-0" style={{ x: glowX }}>
@@ -101,6 +103,9 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
           animate={{ clipPath: 'inset(-30% -30% -10% -30%)', opacity: 1 }}
           transition={{ duration: 1.6, ease: EASE, delay: 0.1 }}
         >
+          {/* A lit floor anchors the cutout in the scene. */}
+          <div aria-hidden className="pointer-events-none absolute bottom-[0%] left-1/2 h-[14%] w-[76%] -translate-x-1/2 rounded-[50%] border border-white/10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.12),rgba(255,255,255,0.03)_43%,transparent_72%)] shadow-[0_18px_38px_rgba(0,0,0,0.8)] [transform:translateX(-50%)_rotateX(68deg)]" />
+          <div aria-hidden className="pointer-events-none absolute bottom-[1%] left-1/2 h-[10%] w-[50%] -translate-x-1/2 rounded-[50%] blur-xl" style={{ background: `${p.color}38` }} />
           {/* accent rim light ring */}
           <div
             aria-hidden
@@ -110,6 +115,7 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
               boxShadow: `0 0 120px ${p.color}44, inset 0 0 80px ${p.color}22`,
             }}
           />
+          <div aria-hidden className="pointer-events-none absolute bottom-[16%] left-1/2 h-[65%] w-[68%] -translate-x-1/2 rounded-full border border-white/10 [transform:translateX(-50%)_rotate(-18deg)_rotateY(65deg)]" style={{ boxShadow: `0 0 35px ${p.color}30, inset 0 0 30px ${p.color}18` }} />
           {p.turntable ? (
             <div className="absolute inset-0 flex items-end justify-center">
               {/* soft floor shadow so the model sits on the page instead of floating */}
@@ -241,17 +247,18 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
 type MV = ReturnType<typeof useTransform<number, number>>;
 
 function FloatChip({ text, sub, pos, depth, index, mx, my }: { text: string; sub: string; pos: string; depth: number; index: number; mx: MV; my: MV }) {
+  const reduced = useReducedMotionPref();
   const x = useTransform(mx, (n: number) => n * depth);
   const y = useTransform(my, (n: number) => n * depth);
   return (
     <motion.div
-      className={`glass absolute hidden rounded-xl px-4 py-2.5 md:block ${pos}`}
+      className={`glass absolute hidden rounded-xl border border-white/20 px-4 py-2.5 shadow-[0_16px_30px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.2)] [transform-style:preserve-3d] md:block ${pos}`}
       style={{ x, y }}
       initial={{ opacity: 0, filter: 'blur(6px)' }}
       animate={{ opacity: 1, filter: 'blur(0px)' }}
       transition={{ duration: 0.9, delay: 1.2 + index * 0.18, ease: EASE }}
     >
-      <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 5 + index, repeat: Infinity, ease: 'easeInOut' }}>
+      <motion.div animate={reduced ? undefined : { y: [0, -6, 0] }} transition={{ duration: 5 + index, repeat: Infinity, ease: 'easeInOut' }}>
         <p className="text-sm font-semibold text-bone">{text}</p>
         <p className="text-[10px] uppercase tracking-[0.2em] text-mist">{sub}</p>
       </motion.div>

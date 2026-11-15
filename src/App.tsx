@@ -19,6 +19,7 @@ import Achievements from './components/Achievements';
 import ResumeSection from './components/ResumeViewer';
 import FinalCTA from './components/FinalCTA';
 import { EASE } from './components/fx';
+import { isStudioDomain, profileFromHostname, profileUrl } from './domain';
 
 // Overlays are only needed on demand — split them out of the first load.
 const PlayIntro = lazy(() => import('./components/PlayIntro'));
@@ -47,9 +48,11 @@ export default function App() {
 }
 
 function Series() {
-  const stored = readStoredProfile();
-  const [stage, setStage] = useState<Stage>(stored ? 'home' : 'opening');
-  const [profileId, setProfileId] = useState<ProfileId>(stored ?? 'basit');
+  const domainProfile = profileFromHostname(window.location.hostname);
+  const studioDomain = isStudioDomain(window.location.hostname);
+  const stored = studioDomain ? null : readStoredProfile();
+  const [stage, setStage] = useState<Stage>(domainProfile || stored ? 'home' : 'opening');
+  const [profileId, setProfileId] = useState<ProfileId>(domainProfile ?? stored ?? 'basit');
   const [playing, setPlaying] = useState(false);
   const [project, setProject] = useState<Project | null>(null);
   const [resumeOpen, setResumeOpen] = useState(false);
@@ -67,6 +70,10 @@ function Series() {
 
   const pickProfile = useCallback(
     (id: ProfileId) => {
+      if (studioDomain || domainProfile) {
+        window.location.assign(profileUrl(id));
+        return;
+      }
       setProfileId(id);
       try {
         sessionStorage.setItem(STORAGE_KEY, id);
@@ -82,8 +89,14 @@ function Series() {
         scrollTo(0, { offset: 0 });
       }
     },
-    [stage, scrollTo],
+    [stage, scrollTo, studioDomain, domainProfile],
   );
+
+  useEffect(() => {
+    document.title = domainProfile
+      ? `${currentProfile.name} — Cinetrio Studios`
+      : 'Cinetrio Studios — The Series';
+  }, [domainProfile, currentProfile.name]);
 
   useEffect(() => {
     if (!toast) return;

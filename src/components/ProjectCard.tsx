@@ -19,7 +19,7 @@ export default function ProjectCard({ project, index, onOpen }: { project: Proje
       viewport={{ once: true, margin: '0px -10% 0px 0px' }}
       transition={{ duration: 0.9, delay: index * 0.08, ease: EASE }}
     >
-      <Tilt max={5} className="group rounded-2xl">
+      <Tilt max={7} className="group rounded-2xl shadow-[0_15px_0_-8px_rgba(80,80,90,0.65),0_28px_38px_-12px_rgba(0,0,0,0.65)] transition-shadow duration-500 hover:shadow-[0_19px_0_-8px_rgba(115,115,125,0.7),0_42px_60px_-12px_rgba(0,0,0,0.8)]">
         <div
           role="button"
           tabIndex={0}
@@ -32,7 +32,7 @@ export default function ProjectCard({ project, index, onOpen }: { project: Proje
             }
           }}
           aria-label={`Open ${project.title}`}
-          className="focus-ring relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-white/10 transition duration-500 group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)] group-hover:ring-white/25 sm:aspect-[16/12] lg:aspect-auto lg:h-[66vh]"
+          className="focus-ring relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-white/20 transition duration-500 group-hover:ring-white/40 sm:aspect-[16/12] lg:aspect-auto lg:h-[66vh]"
         >
           <motion.div layoutId={`art-${project.id}`} className="absolute inset-0 overflow-hidden rounded-2xl">
             <div className="absolute inset-0 transition-transform duration-[1.4s] ease-[var(--ease-cine)] group-hover:scale-[1.07]">
@@ -52,6 +52,7 @@ export default function ProjectCard({ project, index, onOpen }: { project: Proje
               )}
             </div>
           </motion.div>
+          <div aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl shadow-[inset_0_2px_0_rgba(255,255,255,0.2),inset_-5px_0_10px_rgba(0,0,0,0.35),inset_0_-8px_15px_rgba(0,0,0,0.5)]" />
 
           <div className="absolute left-5 top-5 flex items-center gap-2 sm:left-7 sm:top-7">
             <CinetrioGlyph className="h-5 w-auto" />

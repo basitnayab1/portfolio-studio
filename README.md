@@ -25,6 +25,19 @@ npm run preview
 
 The static site is written to `dist/` and can be deployed as-is to Vercel, Netlify, GitHub Pages or any static host.
 
+## Vercel domains
+
+Deploy this repository as one Vercel project, then add all four domains to that project's Domains settings:
+
+| Domain | Opens |
+| --- | --- |
+| `cinetrio.com` | Studio opening and profile selector |
+| `basitnayab.cinetrio.com` | Basit Nayab's portfolio |
+| `faraz.cinetrio.com` | Muhammad Faraz's portfolio |
+| `ahram.cinetrio.com` | Ahram Ali's portfolio |
+
+The app selects the profile from the hostname. Switching profiles on the live domains takes visitors to the corresponding subdomain. Configure the DNS records shown by Vercel for each domain at the domain registrar, then verify all four domains in Vercel. Localhost keeps the existing in-page profile switching for development.
+
 ## Updating the content
 
 **All content lives in one file: [`src/data/portfolio.ts`](src/data/portfolio.ts).** It was generated from the resume, and every component reads from it.
