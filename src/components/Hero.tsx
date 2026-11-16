@@ -1,11 +1,22 @@
 import Turntable from './Turntable';
-import { useRef } from 'react';
+import { lazy, Suspense, useRef } from 'react';
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion';
 import { getProfile, type ProfileId } from '../data/portfolio';
-import { useFinePointer, useReducedMotionPref } from '../hooks/useMedia';
+import { hasWebGL, useFinePointer, useMedia, useReducedMotionPref } from '../hooks/useMedia';
+import type { HeroChip } from '../three/HeroScene';
 import { useSmoothScroll } from '../hooks/smoothScroll';
 import { EASE, Magnetic, Particles } from './fx';
 import { SeriesMark } from './Poster';
+
+// 3D object behind the portrait; three.js loads only on tablet/desktop with WebGL
+const HeroScene = lazy(() => import('../three/HeroScene'));
+
+/** Chip positions (percent of the visual box) for the 3D scene's labels, in the same order as `floating`. */
+const CHIP_SPOTS: Omit<HeroChip, 'text' | 'sub'>[] = [
+  { x: 6, y: 24, align: 'left' },
+  { x: 98, y: 16, align: 'right' },
+  { x: 97, y: 66, align: 'right' },
+];
 
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.09, delayChildren: 0.25 } } };
 const item = {
@@ -38,6 +49,9 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
   const chipX = useTransform(px, [-1, 1], [18, -18]);
   const chipY = useTransform(py, [-1, 1], [12, -12]);
   const glowX = useTransform(px, [-1, 1], ['-6%', '6%']);
+
+  const md = useMedia('(min-width: 768px)');
+  const scene3d = md && hasWebGL();
 
   const meta = [
     p.role,
@@ -106,7 +120,8 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
           {/* A lit floor anchors the cutout in the scene. */}
           <div aria-hidden className="pointer-events-none absolute bottom-[0%] left-1/2 h-[14%] w-[76%] -translate-x-1/2 rounded-[50%] border border-white/10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.12),rgba(255,255,255,0.03)_43%,transparent_72%)] shadow-[0_18px_38px_rgba(0,0,0,0.8)] [transform:translateX(-50%)_rotateX(68deg)]" />
           <div aria-hidden className="pointer-events-none absolute bottom-[1%] left-1/2 h-[10%] w-[50%] -translate-x-1/2 rounded-[50%] blur-xl" style={{ background: `${p.color}38` }} />
-          {/* accent rim light ring */}
+          {/* accent rim light ring (CSS version when the 3D scene is off) */}
+          {!scene3d && (
           <div
             aria-hidden
             className="absolute bottom-[8%] left-1/2 h-[78%] w-[78%] -translate-x-1/2 rounded-full border shadow-[0_0_120px_rgba(229,19,43,0.35),inset_0_0_80px_rgba(229,19,43,0.18)]"
@@ -115,7 +130,20 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
               boxShadow: `0 0 120px ${p.color}44, inset 0 0 80px ${p.color}22`,
             }}
           />
-          <div aria-hidden className="pointer-events-none absolute bottom-[16%] left-1/2 h-[65%] w-[68%] -translate-x-1/2 rounded-full border border-white/10 [transform:translateX(-50%)_rotate(-18deg)_rotateY(65deg)]" style={{ boxShadow: `0 0 35px ${p.color}30, inset 0 0 30px ${p.color}18` }} />
+          )}
+          {!scene3d && (
+            <div aria-hidden className="pointer-events-none absolute bottom-[16%] left-1/2 h-[65%] w-[68%] -translate-x-1/2 rounded-full border border-white/10 [transform:translateX(-50%)_rotate(-18deg)_rotateY(65deg)]" style={{ boxShadow: `0 0 35px ${p.color}30, inset 0 0 30px ${p.color}18` }} />
+          )}
+          {scene3d && (
+            <Suspense fallback={null}>
+              <HeroScene
+                key={profileId}
+                kind={profileId}
+                color={p.color}
+                chips={floating.map((f, i) => ({ text: f.text, sub: f.sub, ...CHIP_SPOTS[i] }))}
+              />
+            </Suspense>
+          )}
           {p.turntable ? (
             <div className="absolute inset-0 flex items-end justify-center">
               {/* soft floor shadow so the model sits on the page instead of floating */}
@@ -146,10 +174,9 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
             style={{ background: `radial-gradient(60% 50% at 80% 30%, ${p.color}28, transparent 70%)` }}
           />
 
-          {/* floating UI chips */}
-          {floating.map((f, i) => (
-            <FloatChip key={f.text} {...f} index={i} mx={chipX} my={chipY} />
-          ))}
+          {/* floating UI chips (the 3D scene draws its own, with leader lines) */}
+          {!scene3d &&
+            floating.map((f, i) => <FloatChip key={f.text} {...f} index={i} mx={chipX} my={chipY} />)}
         </motion.div>
       </motion.div>
 
