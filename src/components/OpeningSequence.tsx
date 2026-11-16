@@ -1,8 +1,18 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { agency } from '../data/portfolio';
-import { useReducedMotionPref } from '../hooks/useMedia';
+import { hasWebGL, useMedia, useReducedMotionPref } from '../hooks/useMedia';
+import type { CoreLabel } from '../three/CinetrioCore';
 import { EASE, Magnetic } from './fx';
+
+// three.js is only fetched for the studio home
+const CinetrioCore = lazy(() => import('../three/CinetrioCore'));
+
+const CORE_LABELS: CoreLabel[] = [
+  { id: 'basit', ring: 0, sub: 'AI & Dev · Basit', title: 'Full-Stack & AI Systems', color: '#ff3d5a', x: 27, y: 47, align: 'left' },
+  { id: 'ahram', ring: 1, sub: 'Video & Motion · Ahram', title: 'Cinematic Media', color: '#b98bff', x: 73, y: 40, align: 'right' },
+  { id: 'faraz', ring: 2, sub: 'Business Growth · Faraz', title: 'Commerce & Clients', color: '#34d399', x: 72, y: 68, align: 'right' },
+];
 
 /**
  * The signature opening cinematic sequence:
@@ -20,6 +30,9 @@ const TIMELINE = [
 export default function OpeningSequence({ onDone }: { onDone: () => void }) {
   const reduced = useReducedMotionPref();
   const [beat, setBeat] = useState(reduced ? 6 : 0);
+  // where the title settles once the core appears (it wraps to two lines on phones)
+  const wide = useMedia('(min-width: 768px)');
+  const lift = wide ? { title: '-31vh', tag: '-35vh', scale: 0.6 } : { title: '-26vh', tag: '-26vh', scale: 0.7 };
 
   useEffect(() => {
     if (reduced) return;
@@ -80,19 +93,21 @@ export default function OpeningSequence({ onDone }: { onDone: () => void }) {
         )}
       </AnimatePresence>
 
-      {/* cinematic visual glow & geometric portal */}
-      <motion.div
-        className="absolute inset-0 z-0 mx-auto flex items-center justify-center pointer-events-none"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={beat >= 4 ? { opacity: 0.45, scale: 1 } : { opacity: 0 }}
-        transition={{ duration: 1.8, ease: EASE }}
-      >
-        <div className="relative h-[65vmin] w-[65vmin] rounded-full border border-crimson/30 shadow-[0_0_150px_rgba(229,19,43,0.3)] flex items-center justify-center">
-          <div className="h-[45vmin] w-[45vmin] rounded-full border border-violet-500/30 shadow-[0_0_90px_rgba(139,92,246,0.25)] flex items-center justify-center">
-            <div className="h-[25vmin] w-[25vmin] rounded-full border border-emerald-500/30 shadow-[0_0_60px_rgba(16,185,129,0.25)]" />
-          </div>
-        </div>
-      </motion.div>
+      {/* 3D Cinetrio Core; the CSS rings show while it loads and where WebGL is missing */}
+      {hasWebGL() ? (
+        <Suspense fallback={<CssPortal beat={beat} />}>
+          <motion.div
+            className="absolute inset-0 z-[5]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: beat >= 4 ? 1 : 0 }}
+            transition={{ duration: 1.4, ease: EASE }}
+          >
+            <CinetrioCore shown={beat >= 4} labels={CORE_LABELS} labelsShown={beat >= 5} />
+          </motion.div>
+        </Suspense>
+      ) : (
+        <CssPortal beat={beat} />
+      )}
       <div aria-hidden className="absolute inset-0 z-[1] bg-[radial-gradient(70%_60%_at_50%_40%,transparent_30%,rgba(0,0,0,0.85)_100%)]" />
 
       {/* agency title */}
@@ -101,7 +116,7 @@ export default function OpeningSequence({ onDone }: { onDone: () => void }) {
           className="font-display leading-[0.82] text-bone drop-shadow-[0_8px_40px_rgba(0,0,0,0.8)]"
           style={{ fontSize: 'clamp(4.2rem, 16vw, 13rem)' }}
           initial={{ opacity: 0, scale: 1.3, filter: 'blur(20px)', letterSpacing: '0.5em' }}
-          animate={beat >= 2 ? { opacity: 1, scale: 1, filter: 'blur(0px)', letterSpacing: '0.04em', y: beat >= 4 ? '-22vh' : 0 } : {}}
+          animate={beat >= 2 ? { opacity: 1, scale: beat >= 4 ? lift.scale : 1, filter: 'blur(0px)', letterSpacing: '0.04em', y: beat >= 4 ? lift.title : 0 } : {}}
           transition={{ duration: 1.3, ease: EASE }}
         >
           {agency.name}
@@ -109,7 +124,7 @@ export default function OpeningSequence({ onDone }: { onDone: () => void }) {
         <motion.p
           className="font-sans text-sm font-bold text-crimson-2 [text-shadow:0_2px_20px_rgba(0,0,0,0.9)] sm:text-lg"
           initial={{ opacity: 0, letterSpacing: '1.4em' }}
-          animate={beat >= 3 ? { opacity: 1, letterSpacing: '0.7em', y: beat >= 4 ? '-22vh' : 0 } : {}}
+          animate={beat >= 3 ? { opacity: 1, letterSpacing: '0.7em', y: beat >= 4 ? lift.tag : 0 } : {}}
           transition={{ duration: 1.1, ease: EASE }}
         >
           {agency.seriesTag}
@@ -148,6 +163,24 @@ export default function OpeningSequence({ onDone }: { onDone: () => void }) {
       >
         SKIP INTRO
       </button>
+    </motion.div>
+  );
+}
+
+/** The original CSS rings: shown while the 3D core loads and on devices without WebGL. */
+function CssPortal({ beat }: { beat: number }) {
+  return (
+    <motion.div
+      className="absolute inset-0 z-0 mx-auto flex items-center justify-center pointer-events-none"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={beat >= 4 ? { opacity: 0.45, scale: 1 } : { opacity: 0 }}
+      transition={{ duration: 1.8, ease: EASE }}
+    >
+      <div className="relative h-[65vmin] w-[65vmin] rounded-full border border-crimson/30 shadow-[0_0_150px_rgba(229,19,43,0.3)] flex items-center justify-center">
+        <div className="h-[45vmin] w-[45vmin] rounded-full border border-violet-500/30 shadow-[0_0_90px_rgba(139,92,246,0.25)] flex items-center justify-center">
+          <div className="h-[25vmin] w-[25vmin] rounded-full border border-emerald-500/30 shadow-[0_0_60px_rgba(16,185,129,0.25)]" />
+        </div>
+      </div>
     </motion.div>
   );
 }

@@ -4,4 +4,5 @@ dist
 *.local
 /.claude
 *.zip
-/_old-sushmita
+/_archive
+/assets-src/basit-3d/basit-raw.glb

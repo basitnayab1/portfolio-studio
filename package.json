@@ -10,15 +10,18 @@
     "images": "node scripts/build-images.mjs"
   },
   "dependencies": {
+    "@react-three/fiber": "^8.17.10",
     "framer-motion": "11.18.2",
     "lenis": "1.1.20",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "three": "^0.169.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "4.1.4",
     "@types/react": "18.3.20",
     "@types/react-dom": "18.3.6",
+    "@types/three": "^0.169.0",
     "@vitejs/plugin-react": "4.4.1",
     "sharp": "0.34.1",
     "tailwindcss": "4.1.4",

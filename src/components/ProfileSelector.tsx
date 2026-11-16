@@ -1,7 +1,11 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { agency, viewerProfiles, type ProfileId } from '../data/portfolio';
 import { EASE } from './fx';
+import { hasWebGL } from '../hooks/useMedia';
+
+// small 3D model orbiting behind each avatar; three.js loads only on this screen
+const ProfileHalo = lazy(() => import('../three/ProfileHalo'));
 
 export function ProfileAvatar({ id, size = 'lg' }: { id: ProfileId; size?: 'sm' | 'lg' }) {
   const p = viewerProfiles.find((v) => v.id === id) || viewerProfiles[0];
@@ -55,6 +59,8 @@ export function ProfileAvatar({ id, size = 'lg' }: { id: ProfileId; size?: 'sm' 
 }
 
 export default function ProfileSelector({ onPick }: { onPick: (id: ProfileId) => void }) {
+  const [hovered, setHovered] = useState<ProfileId | null>(null);
+  const halos = hasWebGL();
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onPick('basit');
@@ -113,10 +119,21 @@ export default function ProfileSelector({ onPick }: { onPick: (id: ProfileId) =>
             <button
               type="button"
               onClick={() => onPick(p.id)}
+              onPointerEnter={() => setHovered(p.id)}
+              onPointerLeave={() => setHovered(null)}
+              onFocus={() => setHovered(p.id)}
+              onBlur={() => setHovered(null)}
               data-cursor="play"
               className="group flex flex-col items-center gap-3 text-center p-3 rounded-2xl transition hover:bg-white/[0.04]"
             >
               <span className="relative rounded-2xl ring-2 ring-transparent transition duration-300 group-hover:scale-105 group-hover:ring-bone group-focus-visible:ring-bone">
+                {halos && (
+                  <span aria-hidden className="pointer-events-none absolute -inset-x-14 -inset-y-9 -z-10 sm:-inset-x-16 sm:-inset-y-10">
+                    <Suspense fallback={null}>
+                      <ProfileHalo kind={p.id} color={p.color} active={hovered === p.id} />
+                    </Suspense>
+                  </span>
+                )}
                 <ProfileAvatar id={p.id} />
                 <span
                   className="absolute -right-2 -top-2 rounded-full px-2.5 py-0.5 text-[9px] font-bold tracking-[0.16em] text-white shadow-lg"

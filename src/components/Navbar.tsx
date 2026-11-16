@@ -65,9 +65,10 @@ export default function Navbar({ order, profileId, onSwitch }: { order: SectionI
         }`}
       >
         <div className="flex items-center gap-8 lg:gap-10">
-          <button type="button" onClick={() => go('top')} className="text-[22px]" aria-label="Back to top">
+          {/* the studio logo always leads home to the agency site */}
+          <a href="https://cinetrio.com/" className="text-[22px]" aria-label="Cinetrio Studios home">
             <SeriesMark />
-          </button>
+          </a>
           <nav className="hidden items-center gap-6 lg:flex" aria-label="Sections">
             <NavLink label="Home" active={active === 'top'} onClick={() => go('top')} />
             {order.map((id) => (

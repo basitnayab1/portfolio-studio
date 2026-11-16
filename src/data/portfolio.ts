@@ -110,7 +110,8 @@ export interface MemberProfile {
     place: string;
     degree: string;
     period: string;
-    score: string;
+    /** Grade or honours; left out until there is a real one to show. */
+    score?: string;
   }[];
   experience: {
     company: string;
@@ -256,11 +257,11 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     ],
     education: [
       {
-        school: 'University of Engineering & Technology',
-        place: 'Computer Science',
-        degree: 'Bachelor of Science — Software Engineering & AI Systems',
-        period: '2020 – 2024',
-        score: 'First Class Honors',
+        school: 'University of the Punjab',
+        place: 'Lahore',
+        degree: 'BS Data Science',
+        period: '2023 – Present',
+        score: 'Focus: AI & Large Language Models (LLMs)',
       },
     ],
     experience: [
@@ -577,11 +578,10 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     ],
     education: [
       {
-        school: 'Institute of Art, Media & Design',
-        place: 'Media Arts',
-        degree: 'Bachelor of Visual Arts & Digital Media Production',
-        period: '2020 – 2024',
-        score: 'Excellence in Motion Graphics',
+        school: 'Bahauddin Zakariya University (BZU)',
+        place: 'Institute of Media Communication Studies, Multan',
+        degree: 'BS Mass Communication',
+        period: '2021 – Present',
       },
     ],
     experience: [
@@ -940,11 +940,10 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     ],
     education: [
       {
-        school: 'Faculty of Business & E-Commerce',
-        place: 'Business Administration',
-        degree: 'Bachelor of Science — E-Commerce & Digital Marketing',
-        period: '2020 – 2024',
-        score: 'Highest Distinction in Marketplace Strategy',
+        school: 'Bahauddin Zakariya University (BZU)',
+        place: 'Multan',
+        degree: 'BS Entrepreneurship',
+        period: '2021 – Present',
       },
     ],
     experience: [

@@ -124,6 +124,23 @@ export function ResumeSheet({ profileId }: { profileId?: ProfileId }) {
       <H>Professional Summary</H>
       <p className="text-sm leading-relaxed text-bone/85">{p.intro}</p>
 
+      {/* Education */}
+      <H>Education</H>
+      <div className="space-y-3">
+        {p.education.map((e) => (
+          <div key={e.degree} className="text-xs">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <span className="font-semibold text-bone">{e.degree}</span>
+              <span className="text-smoke">{e.period}</span>
+            </div>
+            <p className="mt-1 text-mist">
+              {e.school}, {e.place}
+              {e.score ? ` · ${e.score}` : ''}
+            </p>
+          </div>
+        ))}
+      </div>
+
       {/* Core Specialties */}
       <H>Featured Productions</H>
       <div className="space-y-4">
