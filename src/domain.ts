@@ -4,6 +4,7 @@ const subdomains: Record<ProfileId, string> = {
   basit: 'basitnayab',
   faraz: 'faraz',
   ahram: 'ahram',
+  mubashir: 'mubashir',
 };
 
 export function profileFromHostname(hostname: string): ProfileId | null {

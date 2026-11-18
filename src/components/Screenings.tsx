@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { getProfile, type ProfileId, type Screening, type ScreeningShelf } from '../data/portfolio';
+import { getProfile, thumbnail, type ProfileId, type Screening, type ScreeningShelf } from '../data/portfolio';
 import { EASE, SectionHeading } from './fx';
 import { RailButtons } from './Rail';
 
@@ -92,9 +92,6 @@ export function VideoCard({ video, index, onPlay, className }: { video: Screenin
     </motion.button>
   );
 }
-
-/** YouTube thumbnail for a video id (4:3 with letterbox; crop it with object-cover). */
-export const thumbnail = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
 /** Height (px) of YouTube's in-player title bar that we crop off the top. */
 const TOP_BAR = 64;

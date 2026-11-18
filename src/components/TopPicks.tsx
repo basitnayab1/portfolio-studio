@@ -36,10 +36,10 @@ export default function TopPicks({ profileId }: { profileId?: ProfileId }) {
                   <PosterBackdrop palette={pick.palette} />
                 </div>
                 <div className="absolute inset-0 flex flex-col justify-between p-3.5">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.26em] text-bone/70">{pick.label}</span>
-                  <div>
-                    <p className="font-display text-[1.75rem] leading-[0.92] tracking-wide text-bone">{pick.title}</p>
-                    <p className="mt-1.5 text-[11px] leading-snug text-mist">{pick.detail}</p>
+                  <span className="shrink-0 text-[9px] font-bold uppercase tracking-[0.26em] text-bone/70">{pick.label}</span>
+                  <div className="mt-auto pt-2">
+                    <p className="font-display text-[1.65rem] leading-[0.92] tracking-wide text-bone line-clamp-2">{pick.title}</p>
+                    <p className="mt-1 text-[11px] leading-snug text-mist line-clamp-2">{pick.detail}</p>
                   </div>
                 </div>
               </div>

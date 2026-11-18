@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
-import { sectionMeta, viewerProfiles, type ProfileId, type SectionId } from '../data/portfolio';
+import { sectionMeta, viewerProfiles, mubashirViewerProfile, type ProfileId, type SectionId } from '../data/portfolio';
 import { useSmoothScroll } from '../hooks/smoothScroll';
 import { SeriesMark } from './Poster';
 import { ProfileAvatar } from './ProfileSelector';
@@ -51,7 +51,7 @@ export default function Navbar({ order, profileId, onSwitch }: { order: SectionI
     scrollTo(`#${id}`, { offset: id === 'top' ? 0 : -64 });
   };
 
-  const current = viewerProfiles.find((p) => p.id === profileId) || viewerProfiles[0];
+  const current = profileId === 'mubashir' ? mubashirViewerProfile : (viewerProfiles.find((p) => p.id === profileId) || viewerProfiles[0]);
 
   return (
     <motion.header

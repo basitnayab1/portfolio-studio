@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { agency, viewerProfiles, type ProfileId } from '../data/portfolio';
+import { agency, viewerProfiles, mubashirViewerProfile, type ProfileId } from '../data/portfolio';
 import { EASE } from './fx';
 import { hasWebGL } from '../hooks/useMedia';
 
@@ -8,16 +8,18 @@ import { hasWebGL } from '../hooks/useMedia';
 const ProfileHalo = lazy(() => import('../three/ProfileHalo'));
 
 export function ProfileAvatar({ id, size = 'lg' }: { id: ProfileId; size?: 'sm' | 'lg' }) {
-  const p = viewerProfiles.find((v) => v.id === id) || viewerProfiles[0];
+  const p = id === 'mubashir' ? mubashirViewerProfile : (viewerProfiles.find((v) => v.id === id) || viewerProfiles[0]);
   const box = size === 'lg' ? 'h-24 w-24 sm:h-32 sm:w-32 md:h-36 md:w-36 rounded-2xl' : 'h-8 w-8 rounded-lg';
 
-  const glyph = p.glyph || (id === 'basit' ? '</>' : id === 'ahram' ? '✦' : '🛒');
+  const glyph = p.glyph || (id === 'basit' ? '</>' : id === 'ahram' ? '✦' : id === 'faraz' ? '🛒' : '🛩️');
   const gradient =
     id === 'basit'
       ? 'radial-gradient(circle at 50% 30%, #7a0f24, #1a0509 90%)'
       : id === 'ahram'
       ? 'radial-gradient(circle at 50% 30%, #4c1d95, #130324 90%)'
-      : 'radial-gradient(circle at 50% 30%, #064e3b, #031c15 90%)';
+      : id === 'faraz'
+      ? 'radial-gradient(circle at 50% 30%, #064e3b, #031c15 90%)'
+      : 'radial-gradient(circle at 50% 30%, #0369a1, #082f49 90%)';
 
   if (p.avatarImg) {
     return (

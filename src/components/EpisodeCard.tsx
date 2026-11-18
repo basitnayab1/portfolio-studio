@@ -4,7 +4,11 @@ import { EASE, Tilt } from './fx';
 import { PosterBackdrop } from './Poster';
 
 export default function EpisodeCard({ episode, index }: { episode: Episode; index: number }) {
-  const [season, ep] = episode.code.split(' ');
+  const parts = (episode.code || '').trim().split(/\s+/);
+  const season = parts[0] || 'S01';
+  const ep = parts[1] || (parts[0].includes('E') ? parts[0].slice(parts[0].indexOf('E')) : 'E01');
+  const epNumber = ep.replace(/^E/i, '') || '01';
+
   return (
     <motion.article
       className="w-[80vw] shrink-0 snap-start sm:w-[52vw] md:w-[38vw] lg:w-[30vw] xl:w-[26vw]"
@@ -22,9 +26,9 @@ export default function EpisodeCard({ episode, index }: { episode: Episode; inde
             </div>
             <div className="absolute left-4 top-4 flex items-center gap-2">
               <span className="rounded bg-black/50 px-2 py-0.5 text-[10px] font-bold tracking-[0.2em] text-bone backdrop-blur">{season}</span>
-              <span className="text-[10px] font-bold tracking-[0.2em] text-bone/80">EPISODE {ep.replace('E', '')}</span>
+              <span className="text-[10px] font-bold tracking-[0.2em] text-bone/80">EPISODE {epNumber}</span>
             </div>
-            <h4 className="absolute bottom-4 left-4 right-4 font-display text-3xl leading-none tracking-wide text-bone [transform:translateZ(30px)] sm:text-4xl">{episode.title}</h4>
+            <h4 className="absolute bottom-4 left-4 right-4 font-display text-2xl leading-tight tracking-wide text-bone line-clamp-2 [transform:translateZ(30px)] sm:text-3xl">{episode.title}</h4>
           </div>
           <div className="flex flex-1 flex-col p-4">
             <div className="mb-2 flex items-center justify-between text-[11px] text-smoke">

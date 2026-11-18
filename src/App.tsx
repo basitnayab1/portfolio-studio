@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useState, type ReactNode } from 'react';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
-import { viewerProfiles, type ProfileId, type Project, type SectionId } from './data/portfolio';
+import { viewerProfiles, mubashirViewerProfile, type ProfileId, type Project, type SectionId } from './data/portfolio';
 import { SmoothScrollProvider, useSmoothScroll } from './hooks/smoothScroll';
 import CustomCursor from './components/CustomCursor';
 import OpeningSequence from './components/OpeningSequence';
@@ -30,10 +30,25 @@ type Stage = 'opening' | 'profiles' | 'home';
 
 const STORAGE_KEY = 'cinetrio-series-profile';
 
+function getUrlProfile(): ProfileId | null {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('profile');
+    if (q === 'mubashir' || q === 'basit' || q === 'ahram' || q === 'faraz') {
+      return q as ProfileId;
+    }
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
+
 function readStoredProfile(): ProfileId | null {
+  const urlP = getUrlProfile();
+  if (urlP) return urlP;
   try {
     const v = sessionStorage.getItem(STORAGE_KEY);
-    return viewerProfiles.some((p) => p.id === v) ? (v as ProfileId) : null;
+    return (v === 'mubashir' || viewerProfiles.some((p) => p.id === v)) ? (v as ProfileId) : null;
   } catch {
     return null;
   }
@@ -48,18 +63,20 @@ export default function App() {
 }
 
 function Series() {
+  const urlProfile = getUrlProfile();
   const domainProfile = profileFromHostname(window.location.hostname);
   const studioDomain = isStudioDomain(window.location.hostname);
   const stored = studioDomain ? null : readStoredProfile();
-  const [stage, setStage] = useState<Stage>(domainProfile || stored ? 'home' : 'opening');
-  const [profileId, setProfileId] = useState<ProfileId>(domainProfile ?? stored ?? 'basit');
+  const activeProfile = urlProfile ?? domainProfile ?? stored ?? 'basit';
+  const [stage, setStage] = useState<Stage>(urlProfile || domainProfile || stored ? 'home' : 'opening');
+  const [profileId, setProfileId] = useState<ProfileId>(activeProfile);
   const [playing, setPlaying] = useState(false);
   const [project, setProject] = useState<Project | null>(null);
   const [resumeOpen, setResumeOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const { scrollTo, lock, unlock } = useSmoothScroll();
 
-  const currentProfile = viewerProfiles.find((p) => p.id === profileId) || viewerProfiles[0];
+  const currentProfile = profileId === 'mubashir' ? mubashirViewerProfile : (viewerProfiles.find((p) => p.id === profileId) || viewerProfiles[0]);
   const order = currentProfile.order;
 
   useEffect(() => {

@@ -8,12 +8,13 @@
 
 export type Palette = { from: string; via: string; to: string; accent: string };
 
-export type ProfileId = 'basit' | 'ahram' | 'faraz';
+export type ProfileId = 'basit' | 'ahram' | 'faraz' | 'mubashir';
 export type SectionId = 'about' | 'journey' | 'originals' | 'screenings' | 'picks' | 'skills' | 'moments' | 'story';
 
 /** A video hosted on YouTube, shown in the Screenings section. 'short' = vertical 9:16. */
 export type Screening = { id: string; title: string; runtime: string; format?: 'wide' | 'short' };
 export type ScreeningShelf = { title: string; blurb: string; videos: Screening[] };
+export const thumbnail = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
 export type Metric = { value: string; label: string };
 
@@ -219,6 +220,20 @@ export const viewerProfiles: {
     order: ['picks', 'originals', 'about', 'skills', 'journey', 'moments', 'story'],
   },
 ];
+
+/** Dedicated profile metadata for Muhammad Mubashir (separate from core agency viewer selection) */
+export const mubashirViewerProfile = {
+  id: 'mubashir' as ProfileId,
+  name: 'Muhammad Mubashir',
+  fullName: 'Muhammad Mubashir Muneer',
+  role: 'Head of Procurement & Certified Drone Pilot',
+  badge: 'PROCUREMENT & UAV',
+  glyph: '🛩️',
+  blurb: 'Strategic Sourcing, DJI Enterprise UAV & Logistics',
+  color: '#0284c7',
+  avatarImg: '/assets/mubashir-cutout-420.webp',
+  order: ['about', 'originals', 'skills', 'picks', 'journey', 'moments', 'story'] as SectionId[],
+};
 
 export const memberProfiles: Record<ProfileId, MemberProfile> = {
   basit: {
@@ -1236,6 +1251,422 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
       },
     ],
     order: ['picks', 'originals', 'about', 'skills', 'journey', 'moments', 'story'],
+  },
+  mubashir: {
+    id: 'mubashir',
+    fullName: 'Muhammad Mubashir Muneer',
+    displayName: 'Muhammad Mubashir',
+    firstName: 'MUBASHIR',
+    seriesTag: 'PROCUREMENT & ENTERPRISE UAV',
+    originalLabel: 'A SPECIAL DOSSIER',
+    role: 'Head of Procurement & Certified Drone Pilot',
+    badge: 'PROCUREMENT & UAV',
+    glyph: '🛩️',
+    color: '#0284c7',
+    tagline: ['Strategic Sourcing & RFQs', 'DJI Enterprise UAV Pilot', 'UAE Semi-Gov Tenders', 'Global Logistics & Customs'],
+    intro:
+      'Head of Procurement and Certified DJI Enterprise Drone Pilot based in Dubai, UAE. Experienced in leading procurement teams achieving AED 20M in sales, securing high-value semi-government tenders with a 70–80% win rate, and deploying enterprise UAV solutions for public safety, mapping, and inspections.',
+    location: 'Al Karama, Dubai, UAE',
+    email: 'mubashirmuneer1228@gmail.com',
+    avatarImg: '/assets/mubashir-cutout-420.webp',
+    links: {
+      linkedin: 'https://linkedin.com/in/muhammad-mubashir-muneer',
+    },
+    resumePdf: '/assets/resumes/mubashir-procurement.pdf',
+    portrait: {
+      src: '/assets/mubashir-cutout.webp',
+      srcSet: '/assets/mubashir-cutout-420.webp 420w, /assets/mubashir-cutout.webp 765w, /assets/mubashir-cutout.png 765w',
+      alt: 'Portrait of Muhammad Mubashir Muneer',
+    },
+    interests: ['Strategic Sourcing', 'DJI Enterprise Drones', 'Public Safety Tech', 'Customs & SIRA Compliance', 'Odoo ERP Workflows'],
+    facts: [
+      { k: 'Sales Impact', v: 'AED 20M', s: 'Procurement team sales delivered in 2026' },
+      { k: 'Tender Win Rate', v: '70% – 80%', s: 'Semi-government clients in Dubai, UAE' },
+      { k: 'Largest Tender', v: 'AED 3.5M', s: 'Single won competitive tender' },
+      { k: 'Enterprise UAV', v: 'DJI Certified', s: 'Dock 3 & Public Safety Solutions Engineer' },
+    ],
+    education: [
+      {
+        school: 'City H.S.S College Shujaabad',
+        place: 'District Multan, Pakistan',
+        degree: 'Intermediate in Computer Science',
+        period: '2018 – 2020',
+      },
+      {
+        school: 'Govt. High School Shujaabad',
+        place: 'District Multan, Pakistan',
+        degree: 'Matric in Computer Science',
+        period: '2016 – 2018',
+      },
+    ],
+    experience: [
+      {
+        company: 'Technoai FZE LLC',
+        role: 'Head of Procurement',
+        place: 'Dubai, UAE',
+        period: 'June 2026 – Present',
+        points: [
+          'Lead a high-performing procurement team of 6 that achieved AED 20M in sales in 2026.',
+          'Manage the complete procurement cycle from initial RFQ to final delivery, including day-to-day and project-based purchasing.',
+          'Source international and local suppliers, managing competitive tenders, RFQs, and RFPs for semi-government clients in Dubai with a 70–80% win rate.',
+          'Coordinate with logistics, warehousing, and finance on delivery milestones, payment terms, and import/export compliance using Odoo ERP.',
+          'Maintain live RFQ logs, procurement trackers, and supplier performance scorecards ensuring strict adherence to internal approval workflows.',
+        ],
+      },
+      {
+        company: 'Technoai FZE LLC / Aerotel FZCO',
+        role: 'Procurement Officer & DJI Enterprise Sales Representative',
+        place: 'Dubai, UAE',
+        period: 'Feb 2024 – May 2026',
+        points: [
+          'Worked as an Authorized ASC Dealer Partner for DJI Enterprise drones, executing client demonstrations, product positioning, and technical support.',
+          'Delivered consultative drone solutions for public safety, thermal mapping, surveillance, and industrial inspection sectors.',
+          'Prepared, issued, and analyzed complex RFQs/RFPs to select best-value suppliers and negotiated high-value equipment supply contracts.',
+          'Coordinated international air and sea shipments, customs clearance, and regulatory product approvals from SIRA, MOFA, MOIAT, DCAA, and GCAA.',
+          'Created and tracked Purchase Orders (POs) and inventory movement in Odoo ERP, driving cost control and eliminating shipment bottlenecks.',
+        ],
+      },
+      {
+        company: 'Aerotel FZCO',
+        role: 'Logistics Coordinator',
+        place: 'Dubai, UAE',
+        period: 'Aug 2023 – Dec 2023',
+        points: [
+          'Prepared Bills of Entry (BOE) with precision verification of item weights, values, quantities, HS codes, POL, POD, and AWB/BOL for customs clearance.',
+          'Handled specialized government approvals (SIRA, MOFA, MOIAT, DCAA, GCAA) and End-User Letters for restricted electronic and UAV goods.',
+          'Managed air and sea freight forwarding companies for heavy-cargo consignments, negotiating rates and securing proactive delivery tracking.',
+          'Monitored stock levels and storage layouts to prevent stockouts and streamline warehouse dispatch.',
+        ],
+      },
+      {
+        company: 'Dukkantek LLC',
+        role: 'Data Operator & Procurement Support',
+        place: 'Dubai, UAE',
+        period: 'Dec 2022 – July 2023',
+        points: [
+          'Accurately entered and audited high volumes of item data for machine learning detection models with rigorous quality benchmarks.',
+          'Procured project-related hardware, managed supplier coordination, and processed POs, SOs, invoices, and delivery notes.',
+        ],
+      },
+    ],
+    projects: [
+      {
+        id: 'semi-gov-tender-procurement',
+        title: 'AED 20M Semi-Gov Tender Engine',
+        year: '2026',
+        genre: 'Strategic Sourcing • Semi-Gov Tenders • Odoo ERP',
+        logline: 'Directed multi-million AED procurement operations and achieved a 70–80% win rate across competitive Dubai semi-government tenders.',
+        stack: ['Odoo Enterprise ERP', 'Tender Operations', 'RFQ / RFP Management', 'Vendor Negotiation', 'Cost Control'],
+        build: [
+          'Engineered a structured RFQ-to-delivery pipeline managing AED 20M in client sales across Dubai semi-government sectors.',
+          'Established strategic supplier vetting that drove cost reductions while maintaining 100% compliance with client specifications.',
+        ],
+        features: [
+          'Semi-government competitive tender qualification & bidding',
+          'Automated Odoo ERP purchase order and invoice verification',
+          'Supplier risk assessment, performance tracking & SLA monitoring',
+          'Contract negotiation securing high-margin payment milestones',
+        ],
+        metrics: [
+          { value: 'AED 20M', label: 'procurement team sales in 2026' },
+          { value: '70%–80%', label: 'tender win rate' },
+          { value: 'AED 3.5M', label: 'largest single tender won' },
+          { value: '6 Staff', label: 'procurement specialists led' },
+        ],
+        palette: ocean,
+        motif: 'shield',
+      },
+      {
+        id: 'dji-enterprise-uav-operations',
+        title: 'DJI Enterprise UAV Solutions',
+        year: '2025',
+        genre: 'Enterprise UAV • Dock 3 • Public Safety',
+        logline: 'Authorized ASC Dealer Partner operations for DJI Enterprise drones, autonomous Dock 3 installations, and public safety consultative engineering.',
+        stack: ['DJI Enterprise', 'Dock 3 Autonomous System', 'Thermal & LiDAR Sensors', 'Public Safety Tech', 'DCAA Compliance'],
+        build: [
+          'Conducted high-profile enterprise drone live demonstrations and consultative presentations for security, mapping, and industrial inspection.',
+          'Spearheaded client onboarding, technical operator training, and post-sales maintenance workflows as an authorized DJI partner.',
+        ],
+        features: [
+          'DJI Dock 3 automated flight scheduling & remote mission planning',
+          'Public safety thermal inspection and emergency response solutions',
+          'Payload integration including high-zoom optical and thermal cameras',
+          'Full DCAA/GCAA airspace clearance and flight safety compliance',
+        ],
+        metrics: [
+          { value: 'Authorized', label: 'DJI ASC Dealer Partner' },
+          { value: 'Dock 3', label: 'certified autonomous UAV pilot' },
+          { value: 'Certified', label: 'Public Safety Solutions Engineer' },
+          { value: '100%', label: 'regulatory flight compliance' },
+        ],
+        palette: crimson,
+        motif: 'agent',
+      },
+      {
+        id: 'global-logistics-customs-hub',
+        title: 'Global Logistics & Customs Hub',
+        year: '2024',
+        genre: 'Air & Sea Freight • SIRA & DCAA Clearance',
+        logline: 'End-to-end import/export logistics and regulatory approvals covering SIRA, MOFA, MOIAT, DCAA, and GCAA for sensitive high-tech shipments.',
+        stack: ['Customs Clearance (BOE)', 'HS Codes', 'SIRA & MOFA Approvals', 'DCAA / GCAA Clearance', 'Air & Sea Freight'],
+        build: [
+          'Managed Bill of Entry (BOE) preparation, value assessments, and customs clearances across Dubai mainland and Free Zone ports.',
+          'Secured complex security clearances from SIRA, MOFA, and aviation regulators (DCAA/GCAA) with End-User Undertaking letters.',
+        ],
+        features: [
+          'Comprehensive air & sea freight forwarding and route optimization',
+          'Sensitive tech & UAV regulatory clearance with zero port delays',
+          'Real-time inventory and delivery tracking through Odoo ERP',
+          'Warehouse organization with dedicated high-security fragile goods zones',
+        ],
+        metrics: [
+          { value: '5+ Agencies', label: 'cleared (SIRA, MOFA, DCAA, GCAA, MOIAT)' },
+          { value: 'Zero Delay', label: 'customs clearance accuracy' },
+          { value: 'Air & Sea', label: 'multi-modal freight forwarding' },
+          { value: '100%', label: 'documentation and audit compliance' },
+        ],
+        palette: jade,
+        motif: 'flow',
+      },
+    ],
+    achievements: [
+      {
+        id: 'procurement-leadership',
+        title: 'Head of Procurement',
+        org: 'Technoai FZE LLC',
+        detail: 'Directing a 6-member procurement unit achieving AED 20M in sales and winning 70–80% of semi-government tenders in Dubai.',
+        laurel: 'AED 20M Leadership',
+      },
+      {
+        id: 'dji-dock-cert',
+        title: 'DJI Dock 3 Certified Specialist',
+        org: 'DJI Enterprise / ASC Partner',
+        detail: 'Official certification in autonomous drone dock operations, remote flight missions, and drone nest deployment.',
+        laurel: 'Autonomous UAV Specialist',
+      },
+      {
+        id: 'public-safety-engineer',
+        title: 'Public Safety Solutions Engineer',
+        org: 'Enterprise Drone Solutions',
+        detail: 'Certified in public safety consultative solutions, thermal search & rescue, and aerial infrastructure inspections.',
+        laurel: 'Solutions Engineer',
+      },
+      {
+        id: 'uae-driving-license',
+        title: 'Valid UAE Driving License & Residency',
+        org: 'Dubai RTA / UAE Government',
+        detail: 'Licensed driver in the UAE with complete mobility across Dubai and the Northern Emirates.',
+        laurel: 'UAE Licensed',
+      },
+    ],
+    certifications: [
+      { issuer: 'DJI Enterprise', name: 'DJI Dock 3 Training Certificate' },
+      { issuer: 'Enterprise Solutions', name: 'Public Safety Solutions Engineer' },
+      { issuer: 'Government of Dubai / RTA', name: 'Valid UAE Driving License' },
+      { issuer: 'UAE Authorities', name: 'UAE Verified Employment Visa' },
+    ],
+    skillCategories: [
+      {
+        id: 'procurement',
+        title: 'Procurement & Strategic Sourcing',
+        subtitle: 'Sourcing, Tenders & Supply Chain',
+        skills: [
+          { name: 'Strategic Sourcing', mono: 'SRC', note: 'Vetting' },
+          { name: 'Semi-Gov Tenders', mono: 'TND', note: 'Dubai Gov' },
+          { name: 'RFQ & RFP Operations', mono: 'RFQ', note: 'Bidding' },
+          { name: 'Vendor Management', mono: 'VND', note: 'SLAs' },
+          { name: 'Contract Negotiation', mono: 'CTR', note: 'Margins' },
+          { name: 'Cost Control & POs', mono: 'CST', note: 'Budget' },
+        ],
+      },
+      {
+        id: 'drone-uav',
+        title: 'Drone & UAV Operations',
+        subtitle: 'DJI Enterprise & Flight Systems',
+        skills: [
+          { name: 'DJI Enterprise Drones', mono: 'DJI', note: 'Partner' },
+          { name: 'DJI Dock 3 Certified', mono: 'DCK', note: 'Dock 3' },
+          { name: 'Public Safety Solutions', mono: 'SAF', note: 'Security' },
+          { name: 'Thermal & LiDAR Payloads', mono: 'PLD', note: 'Sensors' },
+          { name: 'Flight Demos & Training', mono: 'DEM', note: 'Support' },
+          { name: 'DCAA / GCAA Regulations', mono: 'AIR', note: 'Airspace' },
+        ],
+      },
+      {
+        id: 'logistics',
+        title: 'Logistics & Customs Clearance',
+        subtitle: 'Cross-Border Supply Chain',
+        skills: [
+          { name: 'Customs Clearance (BOE)', mono: 'BOE', note: 'Clearance' },
+          { name: 'SIRA & MOFA Approvals', mono: 'SRA', note: 'SIRA / MOFA' },
+          { name: 'DCAA & GCAA Clearance', mono: 'DCA', note: 'Permits' },
+          { name: 'Air & Sea Freight', mono: 'FRT', note: 'Forwarding' },
+          { name: 'Inventory & Warehousing', mono: 'INV', note: 'Stock' },
+          { name: 'Import / Export Compliance', mono: 'TRD', note: 'Free Zone' },
+        ],
+      },
+      {
+        id: 'systems',
+        title: 'Enterprise Systems & Software',
+        subtitle: 'Tools & Technical Foundations',
+        skills: [
+          { name: 'Odoo Enterprise ERP', mono: 'ERP', note: 'Odoo' },
+          { name: 'Advanced MS Excel', mono: 'XLS', note: 'Modeling' },
+          { name: 'Basic 3D Blender', mono: 'BLN', note: '3D Content' },
+          { name: 'CorelDRAW', mono: 'CDR', note: 'Vector' },
+          { name: 'Windows Administration', mono: 'WIN', note: 'Sysadmin' },
+          { name: 'Data Analysis & Audit', mono: 'AUD', note: 'Audits' },
+        ],
+      },
+    ],
+    skillEvidence: {
+      'Strategic Sourcing': [
+        'Directly managed AED 20M sales procurement operations with Dubai semi-government entities.',
+        'Secured single largest tender of AED 3.5M with comprehensive supplier cost modeling.',
+      ],
+      'DJI Enterprise Drones': [
+        'Served as authorized ASC Dealer Partner specialist for enterprise UAV positioning.',
+        'Official DJI Dock 3 training and certified Public Safety Solutions Engineer.',
+      ],
+      'Customs Clearance (BOE)': [
+        'Handled high-value import/export shipments with complete BOE, HS code, and End-User letter accuracy.',
+        'Zero customs detention rate across SIRA, MOFA, DCAA, and GCAA regulated cargo.',
+      ],
+      'Odoo Enterprise ERP': [
+        'End-to-end tracking of purchase requisitions, POs, vendor bills, and real-time inventory counts.',
+      ],
+    },
+    seasons: [
+      {
+        number: 1,
+        title: 'Technical Foundation & Computer Science',
+        period: '2016 – 2020',
+        synopsis: 'Building a rigorous grounding in computer science, data structures, and computer operations in Pakistan.',
+        episodes: [
+          {
+            code: 'S01 E01',
+            title: 'Computer Science Matriculation',
+            description: 'Acquired foundational skills in data structures, algorithms, and technical problem-solving at Govt. High School Shujaabad.',
+            tags: ['Computer Science', 'Data Structures', 'Foundations'],
+            runtime: '2016 – 2018',
+            palette: crimson,
+          },
+          {
+            code: 'S01 E02',
+            title: 'Intermediate in Computer Science',
+            description: 'Advanced technical education at City H.S.S College Shujaabad, enhancing analytical thinking and software systems understanding.',
+            tags: ['Analytical Thinking', 'Systems', 'Computer Science'],
+            runtime: '2018 – 2020',
+            palette: ocean,
+          },
+        ],
+      },
+      {
+        number: 2,
+        title: 'Dubai Entry & High-Precision Operations',
+        period: '2022 – 2023',
+        synopsis: 'Relocating to Dubai and executing data validation for AI systems and comprehensive warehouse inventory logistics.',
+        episodes: [
+          {
+            code: 'S02 E01',
+            title: 'Data Operations at Dukkantek',
+            description: 'Auditing high-volume item datasets for computer vision models, managing project procurement, and cross-referencing commercial documents.',
+            tags: ['Data Integrity', 'ML Datasets', 'Procurement Support'],
+            runtime: 'Dec 2022 – Jul 2023',
+            palette: violet,
+          },
+          {
+            code: 'S02 E02',
+            title: 'Warehouse & Inventory Mastery',
+            description: 'Directing end-to-end inventory management and Odoo ERP tracking at City Commerce to maintain optimal stock levels.',
+            tags: ['Inventory Management', 'Odoo ERP', 'Warehousing'],
+            runtime: 'Aug 2023 – Dec 2023',
+            palette: jade,
+          },
+        ],
+      },
+      {
+        number: 3,
+        title: 'DJI Enterprise UAV & Global Logistics',
+        period: '2024 – 2025',
+        synopsis: 'Pioneering DJI Enterprise drone sales, consultative engineering, and high-stakes customs clearance for Aerotel and Technoai.',
+        episodes: [
+          {
+            code: 'S03 E01',
+            title: 'Air & Sea Logistics Operations',
+            description: 'Securing complex import/export documentation, Bills of Entry (BOE), and regulatory approvals at Aerotel FZCO.',
+            tags: ['Customs Clearance', 'SIRA & MOFA', 'DCAA Approvals'],
+            runtime: 'Feb 2024 – Feb 2025',
+            palette: amber,
+          },
+          {
+            code: 'S03 E02',
+            title: 'DJI Enterprise UAV Specialist',
+            description: 'Authorized ASC Dealer Partner operations: conducted enterprise client demos, public safety consultative solutions, and Dock 3 deployments.',
+            tags: ['DJI Enterprise', 'Dock 3 Certified', 'Public Safety'],
+            runtime: '2024 – 2025',
+            palette: ocean,
+          },
+        ],
+      },
+      {
+        number: 4,
+        title: 'Head of Procurement & Semi-Gov Tenders',
+        period: '2026 – Present',
+        synopsis: 'Directing a 6-member procurement department at Technoai FZE LLC, achieving AED 20M in sales and 70-80% tender win rates.',
+        episodes: [
+          {
+            code: 'S04 E01',
+            title: 'Leading the Procurement Division',
+            description: 'Managing end-to-end procurement cycles, supplier scorecards, and multi-million AED tender negotiations for semi-government clients in Dubai.',
+            tags: ['AED 20M Sales', 'Tender Win Rate', 'Team Leadership'],
+            runtime: 'June 2026 – Present',
+            palette: jade,
+          },
+        ],
+      },
+    ],
+    topPicks: [
+      {
+        label: 'TENDER ENGINE',
+        title: 'AED 20M Sales & Tenders',
+        detail: '70–80% semi-gov win rate in Dubai',
+        palette: ocean,
+      },
+      {
+        label: 'ENTERPRISE UAV',
+        title: 'DJI Dock 3 Certified',
+        detail: 'Enterprise UAV Pilot & Public Safety',
+        palette: crimson,
+      },
+      {
+        label: 'SUPPLY CHAIN',
+        title: 'Customs & Logistics Hub',
+        detail: 'SIRA, DCAA clearance & Odoo ERP',
+        palette: jade,
+      },
+    ],
+    introSlides: [
+      {
+        kicker: 'DUBAI, UAE',
+        title: 'Muhammad Mubashir Muneer',
+        lines: ['Head of Procurement & Certified Drone Pilot', 'Managing AED 20M sales cycles & semi-government tenders in Dubai.'],
+        chips: ['Head of Procurement', 'DJI Enterprise Pilot', 'Dubai, UAE'],
+      },
+      {
+        kicker: 'STRATEGIC SOURCING',
+        title: '70%–80% Tender Win Rate',
+        lines: ['Led procurement team of 6 with verified UAE experience.', 'Largest single tender won: AED 3.5M.'],
+        chips: ['Semi-Gov Tenders', 'Odoo ERP', 'Vendor Sourcing'],
+      },
+      {
+        kicker: 'ENTERPRISE UAV',
+        title: 'DJI Dock 3 & Public Safety Engineer',
+        lines: ['Authorized ASC Dealer Partner for DJI Enterprise.', 'Regulatory compliance across SIRA, MOFA, DCAA, and GCAA.'],
+        chips: ['DJI Enterprise', 'Dock 3 Certified', 'Public Safety'],
+      },
+    ],
+    order: ['about', 'originals', 'skills', 'picks', 'journey', 'moments', 'story'],
   },
 };
 

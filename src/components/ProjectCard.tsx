@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { projectVideos, type Project, type Screening } from '../data/portfolio';
+import { projectVideos, thumbnail, type Project, type Screening } from '../data/portfolio';
 import { EASE, Tilt } from './fx';
 import { CinetrioGlyph, ProjectArt } from './Poster';
-import { Player, thumbnail } from './Screenings';
+import { Player } from './Screenings';
 
 export default function ProjectCard({ project, index, onOpen }: { project: Project; index: number; onOpen: () => void }) {
   const videos = projectVideos(project);
@@ -32,9 +32,10 @@ export default function ProjectCard({ project, index, onOpen }: { project: Proje
             }
           }}
           aria-label={`Open ${project.title}`}
-          className="focus-ring relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-white/20 transition duration-500 group-hover:ring-white/40 sm:aspect-[16/12] lg:aspect-auto lg:h-[66vh]"
+          className="focus-ring relative flex min-h-[580px] sm:min-h-[620px] lg:h-[72vh] lg:min-h-[640px] flex-col justify-between overflow-hidden rounded-2xl p-5 sm:p-7 ring-1 ring-white/20 transition duration-500 group-hover:ring-white/40"
         >
-          <motion.div layoutId={`art-${project.id}`} className="absolute inset-0 overflow-hidden rounded-2xl">
+          {/* Background Poster Artwork */}
+          <motion.div layoutId={`art-${project.id}`} className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
             <div className="absolute inset-0 transition-transform duration-[1.4s] ease-[var(--ease-cine)] group-hover:scale-[1.07]">
               <ProjectArt project={project} />
               {featured && (
@@ -51,24 +52,35 @@ export default function ProjectCard({ project, index, onOpen }: { project: Proje
                 </>
               )}
             </div>
+            {/* Contrast gradient from top to bottom so both top header and bottom text are crystal clear */}
+            <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/65 to-black/35" />
           </motion.div>
           <div aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl shadow-[inset_0_2px_0_rgba(255,255,255,0.2),inset_-5px_0_10px_rgba(0,0,0,0.35),inset_0_-8px_15px_rgba(0,0,0,0.5)]" />
 
-          <div className="absolute left-5 top-5 flex items-center gap-2 sm:left-7 sm:top-7">
-            <CinetrioGlyph className="h-5 w-auto" />
-            <span className="text-[10px] font-bold tracking-[0.34em] text-bone/80">ORIGINAL</span>
+          {/* Top Bar (Natural flex flow at top of card, never collides) */}
+          <div className="relative z-10 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <CinetrioGlyph className="h-5 w-auto shrink-0" />
+              <span className="text-[10px] font-bold tracking-[0.34em] text-bone/80">ORIGINAL</span>
+            </div>
+            <span className="shrink-0 rounded border border-white/30 px-2 py-0.5 text-[10px] font-bold text-bone">
+              {project.year}
+            </span>
           </div>
-          <span className="absolute right-5 top-5 rounded border border-white/30 px-1.5 py-px text-[10px] font-bold text-bone sm:right-7 sm:top-7">{project.year}</span>
 
-          <div className="absolute inset-x-0 bottom-0 p-5 sm:p-7 [transform:translateZ(40px)]">
+          {/* Bottom Content (Natural flex flow at bottom of card with mt-auto) */}
+          <div className="relative z-10 mt-auto pt-6 [transform:translateZ(40px)]">
             <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-mist">{project.genre}</p>
-            <motion.h3 layoutId={`title-${project.id}`} className="font-display text-[clamp(2.4rem,5vw,4.6rem)] leading-[0.88] tracking-wide text-bone">
+            <motion.h3
+              layoutId={`title-${project.id}`}
+              className="font-display text-[clamp(1.9rem,3.4vw,3.6rem)] leading-[0.92] tracking-wide text-bone line-clamp-3"
+            >
               {project.title}
             </motion.h3>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-bone/75 sm:text-[15px]">{project.logline}</p>
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-bone/75 sm:text-[15px] line-clamp-2">{project.logline}</p>
             <div className="mt-4 flex flex-wrap gap-1.5">
               {project.stack.map((t) => (
-                <span key={t} className="rounded-full bg-black/35 px-2.5 py-1 text-[11px] font-medium text-bone/90 backdrop-blur">
+                <span key={t} className="rounded-full bg-black/40 border border-white/10 px-2.5 py-1 text-[11px] font-medium text-bone/90 backdrop-blur">
                   {t}
                 </span>
               ))}

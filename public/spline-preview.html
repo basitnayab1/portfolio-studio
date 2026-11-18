@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spline 3D Scene Interactive Preview | Cinetrio</title>
+    <!-- Spline Official Web Viewer Component -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.75/build/spline-viewer.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0c0d12;
+            color: #f3f4f6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        header {
+            padding: 16px 28px;
+            background: rgba(18, 19, 26, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #e50914, #ff3366);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn.active {
+            background: #e50914;
+            border-color: #ff3366;
+            color: #fff;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            gap: 24px;
+        }
+
+        .stage-wrapper {
+            width: 100%;
+            background: radial-gradient(circle at 50% 50%, #171822 0%, #0d0e14 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #reactViewport {
+            width: 100%;
+            aspect-ratio: 1.8823;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        #reactInnerWrapper {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 1440px;
+            height: 765px;
+            overflow: hidden;
+            transform-origin: bottom center;
+            pointer-events: auto;
+        }
+
+        #splineHolder {
+            width: 1440px;
+            height: 900px;
+            transform: translateY(-7.5%);
+            position: relative;
+        }
+
+        spline-viewer {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .stage-wrapper.full-mode #reactViewport {
+            aspect-ratio: 16 / 9;
+            height: 75vh;
+        }
+
+        .stage-wrapper.full-mode #reactInnerWrapper {
+            width: 100%;
+            height: 100%;
+            left: 0;
+            transform: none !important;
+        }
+
+        .stage-wrapper.full-mode #splineHolder {
+            width: 100%;
+            height: 100%;
+            transform: none;
+        }
+
+        .info-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card h2 {
+            font-size: 15px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card p, .card li {
+            font-size: 13px;
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        .card ul {
+            padding-left: 20px;
+        }
+
+        .code-box {
+            background: #08080c;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 12px;
+            color: #38bdf8;
+            overflow-x: auto;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #4ade80;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <span class="badge">Spline 3D</span>
+            <h1>Interactive Scene Preview</h1>
+        </div>
+        <div class="actions">
+            <button class="btn active" id="viewCroppedBtn" onclick="setViewMode('cropped')">📐 Cropped View (Code Logic)</button>
+            <button class="btn" id="viewFullBtn" onclick="setViewMode('full')">🔍 Full Screen View</button>
+            <button class="btn" onclick="resetRotation()">🔄 Reset View</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="stage-wrapper" id="stageWrapper">
+            <div id="reactViewport">
+                <div id="reactInnerWrapper">
+                    <div id="splineHolder">
+                        <spline-viewer 
+                            id="viewer"
+                            loading-anim-type="spinner-small-dark"
+                            url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode">
+                        </spline-viewer>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="card">
+                <h2>
+                    <span class="status-pill"><span class="dot"></span> Live Scene Loaded</span>
+                </h2>
+                <p><strong>Yeh Code Kya Hai:</strong></p>
+                <p>Yeh aik Next.js / React client component hai jo Spline 3D design tool se export ki gayi interactive 3D WebGL scene ko load karta hai.</p>
+                <ul>
+                    <li><strong>Dynamic Import:</strong> Server Side Rendering (SSR) error se bachne ke liye Spline ko browser par dynamically import karta hai.</li>
+                    <li><strong>Responsive Math:</strong> ResizeObserver ke zariye container width dekh kar <code>scale()</code> calculate karta hai takay har screen par fit rahay.</li>
+                    <li><strong>15% Cropping:</strong> Scene ke upar/neechay se 15% hissa crop karta hai takay extra margins ya watermark chup jayein.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>💡 Interactive Tips</h2>
+                <ul>
+                    <li>🖱️ <strong>Left Click + Drag:</strong> 3D Model ko kisi bhi direction mein rotate karein.</li>
+                    <li>📜 <strong>Scroll Wheel:</strong> Zoom in aur Zoom out karein.</li>
+                    <li>🖐️ <strong>Right Click + Drag:</strong> Model ko pan / move karein.</li>
+                    <li>👆 <strong>Hover:</strong> Agar scene mein hover effects hain to mouse cursor se react kare ga.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>📦 React / Next.js Setup</h2>
+                <p>Is component ko apne project mein use karne ke liye yeh package install karein:</p>
+                <div class="code-box">npm install @splinetool/react-spline @splinetool/runtime</div>
+                <p style="margin-top: 8px;">File save ho chuki hai:</p>
+                <div class="code-box">spline-preview/Home.tsx</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const BASE_WIDTH = 1440;
+        const BASE_HEIGHT = 900;
+        const CROP_PERCENT = 15;
+        const SIZE_MULTIPLIER = 0.85;
+
+        const reactViewport = document.getElementById('reactViewport');
+        const reactInnerWrapper = document.getElementById('reactInnerWrapper');
+        const stageWrapper = document.getElementById('stageWrapper');
+        let currentMode = 'cropped';
+
+        function updateScale() {
+            if (currentMode === 'full') return;
+            const containerWidth = reactViewport.offsetWidth;
+            const scale = (containerWidth / BASE_WIDTH) * SIZE_MULTIPLIER;
+            reactInnerWrapper.style.transform = `translateX(-50%) scale(${scale})`;
+        }
+
+        window.addEventListener('resize', updateScale);
+        updateScale();
+
+        function setViewMode(mode) {
+            currentMode = mode;
+            const croppedBtn = document.getElementById('viewCroppedBtn');
+            const fullBtn = document.getElementById('viewFullBtn');
+
+            if (mode === 'full') {
+                stageWrapper.classList.add('full-mode');
+                fullBtn.classList.add('active');
+                croppedBtn.classList.remove('active');
+            } else {
+                stageWrapper.classList.remove('full-mode');
+                croppedBtn.classList.add('active');
+                fullBtn.classList.remove('active');
+                updateScale();
+            }
+        }
+
+        function resetRotation() {
+            const viewer = document.getElementById('viewer');
+            if (viewer) {
+                viewer.setAttribute('url', 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode');
+            }
+        }
+    </script>
+</body>
+</html>
+

@@ -72,10 +72,16 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
           { text: 'Premiere & After Effects', sub: 'Motion & VFX', pos: 'right-[0%] top-[18%]', depth: -1 },
           { text: '10M+ Organic Views', sub: 'High Retention', pos: 'right-[4%] bottom-[24%]', depth: 0.6 },
         ]
-      : [
+      : profileId === 'faraz'
+      ? [
           { text: '$500K+ GMV Scaled', sub: 'Marketplace Sales', pos: 'left-[2%] top-[30%]', depth: 1 },
           { text: 'Client Acquisition', sub: 'Partnerships & Proposals', pos: 'right-[0%] top-[18%]', depth: -1 },
           { text: 'TikTok Shop & Amazon', sub: 'FBA & Affiliates', pos: 'right-[4%] bottom-[24%]', depth: 0.6 },
+        ]
+      : [
+          { text: 'AED 20M Sales Lead', sub: 'Semi-Gov Tenders (Dubai)', pos: 'left-[2%] top-[30%]', depth: 1 },
+          { text: 'DJI Dock 3 Certified', sub: 'Enterprise UAV Pilot', pos: 'right-[0%] top-[18%]', depth: -1 },
+          { text: 'Customs & Logistics', sub: 'SIRA, MOFA & DCAA Clear', pos: 'right-[4%] bottom-[24%]', depth: 0.6 },
         ];
 
   return (
