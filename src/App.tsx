@@ -67,8 +67,14 @@ function Series() {
   const domainProfile = profileFromHostname(window.location.hostname);
   const studioDomain = isStudioDomain(window.location.hostname);
   const stored = studioDomain ? null : readStoredProfile();
-  const activeProfile = urlProfile ?? domainProfile ?? stored ?? 'basit';
-  const [stage, setStage] = useState<Stage>(urlProfile || domainProfile || stored ? 'home' : 'opening');
+
+  const isMubashirEnv =
+    window.location.hostname.includes('mubashir') ||
+    urlProfile === 'mubashir' ||
+    domainProfile === 'mubashir';
+
+  const activeProfile = isMubashirEnv ? 'mubashir' : (urlProfile ?? domainProfile ?? stored ?? 'basit');
+  const [stage, setStage] = useState<Stage>(isMubashirEnv || urlProfile || domainProfile || stored ? 'home' : 'opening');
   const [profileId, setProfileId] = useState<ProfileId>(activeProfile);
   const [playing, setPlaying] = useState(false);
   const [project, setProject] = useState<Project | null>(null);
