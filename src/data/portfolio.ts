@@ -1280,9 +1280,9 @@ export const memberProfiles: Record<ProfileId, MemberProfile> = {
     },
     interests: ['Strategic Sourcing', 'DJI Enterprise Drones', 'Public Safety Tech', 'Customs & SIRA Compliance', 'Odoo ERP Workflows'],
     facts: [
+      { k: 'Domain', v: 'Procurement & Enterprise UAV', s: 'Strategic Sourcing, Tenders & DJI Drones' },
       { k: 'Sales Impact', v: 'AED 20M', s: 'Procurement team sales delivered in 2026' },
       { k: 'Tender Win Rate', v: '70% – 80%', s: 'Semi-government clients in Dubai, UAE' },
-      { k: 'Largest Tender', v: 'AED 3.5M', s: 'Single won competitive tender' },
       { k: 'Enterprise UAV', v: 'DJI Certified', s: 'Dock 3 & Public Safety Solutions Engineer' },
     ],
     education: [

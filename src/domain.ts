@@ -9,9 +9,20 @@ const subdomains: Record<ProfileId, string> = {
 
 export function profileFromHostname(hostname: string): ProfileId | null {
   const host = hostname.toLowerCase().replace(/\.$/, '');
-  if (!host.endsWith('.cinetrio.com')) return null;
-  const subdomain = host.slice(0, -'.cinetrio.com'.length);
-  return (Object.keys(subdomains) as ProfileId[]).find((id) => subdomains[id] === subdomain) ?? null;
+
+  // Dedicated custom domains (e.g. mubashirmuneer.com, mubashir.ae, etc.)
+  if (host.includes('mubashir')) return 'mubashir';
+  if (host.includes('basitnayab')) return 'basit';
+  if (host.includes('faraz')) return 'faraz';
+  if (host.includes('ahram')) return 'ahram';
+
+  // Subdomains of cinetrio.com
+  if (host.endsWith('.cinetrio.com')) {
+    const subdomain = host.slice(0, -'.cinetrio.com'.length);
+    return (Object.keys(subdomains) as ProfileId[]).find((id) => subdomains[id] === subdomain) ?? null;
+  }
+
+  return null;
 }
 
 export function profileUrl(id: ProfileId): string {
