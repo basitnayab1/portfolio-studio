@@ -116,10 +116,26 @@ function Series() {
   );
 
   useEffect(() => {
-    document.title = domainProfile
-      ? `${currentProfile.name} — Cinetrio Studios`
-      : 'Cinetrio Studios — The Series';
-  }, [domainProfile, currentProfile.name]);
+    const title = domainProfile
+      ? `${currentProfile.name} | ${currentProfile.role} | Cinetrio Studios`
+      : 'Cinetrio Studios | Web Development & Video Editing Services';
+    const description = domainProfile
+      ? `Explore ${currentProfile.name}'s ${currentProfile.role} portfolio, projects, skills and contact details at Cinetrio Studios.`
+      : 'Cinetrio Studios offers web development, AI systems, video editing, motion graphics and e-commerce growth services. Explore our specialists and work.';
+    const canonicalUrl = `${window.location.origin}/`;
+    document.title = title;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', description);
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', canonicalUrl);
+    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = canonicalUrl;
+  }, [domainProfile, currentProfile.name, currentProfile.role]);
 
   useEffect(() => {
     if (!toast) return;

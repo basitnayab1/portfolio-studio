@@ -95,6 +95,11 @@ export default function FinalCTA({ onReplay, profileId }: { onReplay: () => void
         </button>
       </div>
 
+      <nav aria-label="Cinetrio services" className="relative mt-8 flex flex-wrap justify-center gap-5 text-sm text-mist">
+        <a className="hover:text-bone" href="https://cinetrio.com/services/web-development.html">Web development &amp; AI</a>
+        <a className="hover:text-bone" href="https://cinetrio.com/services/video-editing.html">Video editing &amp; motion</a>
+      </nav>
+
       <footer className="absolute inset-x-0 bottom-0 px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-center">
         <div className="mb-2 text-base">
           <SeriesMark />
